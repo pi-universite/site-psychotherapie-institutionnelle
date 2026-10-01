@@ -24,6 +24,44 @@
      self-hosted) only downloads where Georgia is missing (Android, Linux). */
   --font-sans: "Inter Variable", system-ui, -apple-system, sans-serif;
   --font-serif: Georgia, "Gelasio", "Times New Roman", serif;
+
+  /* Spacing rules derived from the Figma frame (values at 1512px wide).
+     page:    side margin of the page (60px, 16px on phones)
+     section: vertical rhythm — above/below each section and between a
+              section title and its content (60px, 32px on phones)
+     gutter:  between grid columns, cards and blocks inside a card (20px)
+     card:    inner padding of cards; also where column rules sit (gutter/2) */
+  --spacing-page: clamp(1rem, 4vw, 3.75rem);
+  --spacing-section: clamp(2rem, 4vw, 3.75rem);
+  --spacing-gutter: 1.25rem;
+  --spacing-card: calc(var(--spacing-gutter) / 2);
+
+  /* Main text column (À propos). */
+  --container-text: 50rem;
+
+  /* Type scale from Figma (80 / 60 / 40 / 30 / 25 / 20 / 19 / 15).
+     Inter is tightened on large sizes: -5% from 60px, -4% from 25 to 40px. */
+  --text-display: clamp(2.25rem, 0.9rem + 4.5vw, 5rem);
+  --text-display--line-height: 1.125;
+  --text-display--letter-spacing: -0.05em;
+  --text-title: clamp(2.25rem, 1.4rem + 2.5vw, 3.75rem);
+  --text-title--line-height: 1.2;
+  --text-title--letter-spacing: -0.05em;
+  --text-headline: 2.5rem;
+  --text-headline--line-height: 1.125;
+  --text-headline--letter-spacing: -0.04em;
+  --text-subhead: clamp(1.5rem, 1.2rem + 0.8vw, 1.875rem);
+  --text-subhead--line-height: 1.07;
+  --text-subhead--letter-spacing: -0.04em;
+  --text-card: 1.5625rem;
+  --text-card--line-height: 1.2;
+  --text-card--letter-spacing: -0.04em;
+  --text-nav: clamp(1rem, 0.85rem + 0.4vw, 1.25rem);
+  --text-nav--line-height: 1.2;
+  --text-body: clamp(1rem, 0.9rem + 0.3vw, 1.1875rem);
+  --text-body--line-height: 1.27;
+  --text-small: 0.9375rem;
+  --text-small--line-height: 1.25;
 }
 
 @layer base {
@@ -42,14 +80,10 @@
 }
 
 /* Small uppercase label used across sections (establishment, type, team). */
-/* Figma: Inter 15px, bold, uppercase (slightly smaller on small screens). */
 @utility label {
   font-family: var(--font-sans);
-  font-size: 0.8125rem;
-  line-height: 1.2;
+  font-size: var(--text-small);
+  line-height: var(--text-small--line-height);
   font-weight: 700;
   text-transform: uppercase;
-  @media (width >= 64rem) {
-    font-size: 0.9375rem;
-  }
 }

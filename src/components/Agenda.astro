@@ -12,7 +12,7 @@ const today = isoDay(new Date());
     events.length === 0 ? (
       <p class="font-serif">Aucun événement pour le moment.</p>
     ) : (
-      <ul id="agenda-liste" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <ul id="agenda-liste" class="grid gap-gutter sm:grid-cols-2 lg:grid-cols-4">
         {events.map((event) => (
           <AgendaCard event={event} past={lastDay(event) < today} />
         ))}

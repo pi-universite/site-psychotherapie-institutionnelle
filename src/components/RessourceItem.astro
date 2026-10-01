@@ -8,8 +8,8 @@ interface Props {
 const { titre, url, source, annee, description } = Astro.props.r.data;
 const meta = [source, annee].filter(Boolean).join(' · ');
 ---
-<li class="py-4">
-  <p class="text-lg leading-snug">
+<li class="py-gutter">
+  <p class="text-nav">
     {
       url ? (
         <a href={url} class="underline-offset-4 hover:underline" rel="noopener">
@@ -21,5 +21,5 @@ const meta = [source, annee].filter(Boolean).join(' · ');
     }
   </p>
   {meta && <p class="label mt-1 font-normal">{meta}</p>}
-  {description && <p class="mt-2 max-w-[62ch] font-serif text-sm leading-snug">{description}</p>}
+  {description && <p class="mt-card max-w-text font-serif text-small">{description}</p>}
 </li>

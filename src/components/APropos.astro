@@ -11,5 +11,5 @@ const { titre, texte } = Astro.props;
 const html = await renderMarkdown(texte);
 ---
 <Section id="a-propos" titre={titre} layout="side">
-  <div class="max-w-[802px] font-serif text-base leading-snug lg:mt-[13px] lg:text-[19px] lg:leading-6 [&_a]:underline [&_p+p]:mt-0" set:html={html} />
+  <div class="max-w-text font-serif text-body [&_a]:underline [&_p+p]:mt-0" set:html={html} />
 </Section>

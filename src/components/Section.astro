@@ -12,12 +12,13 @@ const { id, titre, layout = 'top' } = Astro.props;
   id={id}
   aria-labelledby={`${id}-titre`}
   class:list={[
-    'border-t border-encre py-12 lg:py-[60px]',
-    layout === 'side' && 'md:grid md:grid-cols-[minmax(0,475fr)_minmax(0,917fr)]',
+    'border-t border-encre py-section',
+    // Side layout: title in the first column of the 3-column grid, content in the other two.
+    layout === 'side' && 'md:grid md:grid-cols-3 md:gap-x-gutter',
   ]}
 >
-  <h2 id={`${id}-titre`} class="mb-10 text-4xl leading-tight tracking-[-0.05em] md:text-5xl lg:mb-[55px] lg:text-[60px]">{titre}</h2>
-  <div>
+  <h2 id={`${id}-titre`} class="mb-section text-title">{titre}</h2>
+  <div class:list={[layout === 'side' && 'md:col-span-2']}>
     <slot />
   </div>
 </section>

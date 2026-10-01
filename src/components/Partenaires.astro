@@ -17,22 +17,22 @@ const lastRowStart = (cols: number) => Math.floor((n - 1) / cols) * cols;
 function cellClasses(i: number) {
   return [
     i === n - 1 ? 'border-b-0' : 'border-b',
-    i % 2 ? 'sm:-ml-[10px] sm:border-l sm:pl-[10px]' : 'sm:ml-0 sm:border-l-0 sm:pl-0',
+    i % 2 ? 'sm:-ml-card sm:border-l sm:pl-card' : 'sm:ml-0 sm:border-l-0 sm:pl-0',
     i >= lastRowStart(2) ? 'sm:border-b-0' : 'sm:border-b',
-    i % 3 ? 'lg:-ml-[10px] lg:border-l lg:pl-[10px]' : 'lg:ml-0 lg:border-l-0 lg:pl-0',
+    i % 3 ? 'lg:-ml-card lg:border-l lg:pl-card' : 'lg:ml-0 lg:border-l-0 lg:pl-0',
     i >= lastRowStart(3) ? 'lg:border-b-0' : 'lg:border-b',
   ];
 }
 ---
 <Section id="partenaires" titre={titre}>
-  <ul class="grid gap-y-8 sm:grid-cols-2 sm:gap-x-5 lg:grid-cols-3 lg:gap-y-[25px]">
+  <ul class="grid gap-gutter sm:grid-cols-2 lg:grid-cols-3">
     {
       laboratoires.map((lab, i) => (
         // Subgrid: establishment, laboratory and team blocks line up across a row.
-        <li class:list={['row-span-3 grid grid-rows-subgrid gap-y-0 border-encre pb-6 lg:pb-[26px]', cellClasses(i)]}>
+        <li class:list={['row-span-3 grid grid-rows-subgrid gap-y-0 border-encre pb-gutter', cellClasses(i)]}>
           <p class="label">{lab.etablissement}</p>
           <div>
-          <h3 class="mt-5 text-2xl leading-[1.07] tracking-[-0.04em] lg:text-[30px]">
+          <h3 class="mt-gutter text-subhead">
             {lab.url ? (
               <a href={lab.url} class="hover:underline" rel="noopener">
                 {lab.laboratoire}
@@ -43,11 +43,11 @@ function cellClasses(i: number) {
           </h3>
           {lab.logo && <img src={lab.logo} alt="" class="mt-4 h-10 w-auto" loading="lazy" />}
           </div>
-          <div class="pt-6">
+          <div class="pt-gutter">
           {lab.membres.length > 0 && (
             <>
               {lab.equipe_label && <p class="label font-normal">{lab.equipe_label} :</p>}
-              <ul class="mt-5 font-serif text-base leading-snug lg:text-[19px] lg:leading-6">
+              <ul class="mt-gutter font-serif text-body">
                 {lab.membres.map((m) => (
                   <li>
                     {m.url ? (
@@ -60,7 +60,7 @@ function cellClasses(i: number) {
                     {m.bio && (
                       <details class="group mt-1 mb-2">
                         <summary class="label cursor-pointer font-normal underline underline-offset-2">Présentation</summary>
-                        <p class="mt-2 text-xs leading-snug">{m.bio}</p>
+                        <p class="mt-card font-serif text-small">{m.bio}</p>
                       </details>
                     )}
                   </li>

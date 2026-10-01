@@ -14,12 +14,12 @@ const links = [
   { href: '#contacts', label: 'Contacts' },
 ];
 ---
-<header class="relative z-10 flex flex-col gap-4 border-b border-encre py-5 lg:h-[92px] lg:flex-row lg:items-start lg:justify-between lg:py-0 lg:pt-[26px]">
-  <a href="/" class="max-w-[445px] text-sm leading-tight font-bold lg:text-[15px]" aria-current={onHome ? 'page' : undefined}>
+<header class="relative z-10 flex flex-col gap-4 border-b border-encre py-gutter lg:flex-row lg:items-center lg:justify-between lg:py-7">
+  <a href="/" class="max-w-md text-small font-bold" aria-current={onHome ? 'page' : undefined}>
     {title}
   </a>
-  <nav aria-label="Navigation principale" class="lg:pt-[14px]">
-    <ul class="flex flex-wrap gap-x-6 gap-y-2 text-base md:gap-x-14 lg:text-xl">
+  <nav aria-label="Navigation principale">
+    <ul class="flex flex-wrap gap-x-6 gap-y-2 text-nav md:gap-x-14">
       {
         links.map((link) => (
           <li>

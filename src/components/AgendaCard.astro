@@ -15,38 +15,38 @@ const dates = formatDateRange(e.date_debut, e.date_fin);
 const isCall = e.type === 'appel';
 ---
 <li
-  class:list={['agenda-card flex min-h-[416px] flex-col px-[11px] py-[9px]', meta.bg]}
+  class:list={['agenda-card flex min-h-104 flex-col p-card', meta.bg]}
   data-debut={isoDay(e.date_debut)}
   data-fin={lastDay(event)}
   data-past={past ? '' : undefined}
 >
   {
     isCall ? (
-      <h3 class="text-[40px] leading-[45px] font-medium tracking-[-0.04em]">{e.titre}</h3>
+      <h3 class="text-headline font-medium">{e.titre}</h3>
     ) : (
       <>
-        <p class="border-b border-encre pb-2 text-[15px]">
+        <p class="border-b border-encre pb-card text-small">
           <time datetime={isoDay(e.date_debut)}>{dates}</time>
           {e.horaire && <> : {e.horaire}</>}
         </p>
-        {e.lieu && <p class="border-b border-encre py-2 text-[15px] uppercase">{e.lieu}</p>}
-        <h3 class="mt-2 text-[25px] leading-[30px] font-semibold tracking-[-0.04em]">{e.titre}</h3>
+        {e.lieu && <p class="border-b border-encre py-card text-small uppercase">{e.lieu}</p>}
+        <h3 class="mt-card text-card font-semibold">{e.titre}</h3>
       </>
     )
   }
-  {e.description && <p class="mt-3 font-serif text-[15px] leading-snug">{e.description}</p>}
+  {e.description && <p class="mt-card font-serif text-small">{e.description}</p>}
   {
     isCall && (
-      <p class="mt-3 text-[15px]">
+      <p class="mt-card text-small">
         Date limite : <time datetime={isoDay(e.date_debut)}>{dates}</time>
       </p>
     )
   }
-  <p class="mt-auto flex items-baseline justify-between gap-4 border-t border-encre pt-2">
+  <p class="mt-auto flex items-baseline justify-between gap-4 border-t border-encre pt-card">
     <span class="label">{meta.label}</span>
     {
       e.lien && (
-        <a href={e.lien} class="text-[15px] uppercase tracking-[-0.04em] underline underline-offset-2" rel="noopener">
+        <a href={e.lien} class="text-small uppercase underline underline-offset-2" rel="noopener">
           {e.lien_label || 'Site web'}
         </a>
       )

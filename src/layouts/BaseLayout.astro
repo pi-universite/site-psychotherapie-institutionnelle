@@ -43,7 +43,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:bg-fond focus:p-2">
       Aller au contenu
     </a>
-    <div class="relative isolate mx-auto max-w-[1512px] overflow-x-clip px-4 sm:px-8 lg:px-[60px]">
+    <div class="relative isolate mx-auto max-w-[1512px] overflow-x-clip px-page">
       <Header title={settings.titre_court} />
       <main id="contenu">
         <slot />

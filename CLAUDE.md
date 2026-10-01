@@ -47,4 +47,9 @@ auth/                         ← OAuth Worker (zero deps, deployed by hand with
 - **No CDN at runtime**: Sveltia bundle and fonts (Fontsource) are self-hosted.
 - **Install with `npm ci`**; no dependency auto-updates.
 - Design reference: Figma frame "Desktop 8". Tokens in `src/styles/global.css` `@theme`.
+- **Spacing and type come from tokens, never one-off px values**: `page` (side margin),
+  `section` (vertical rhythm, title → content), `gutter` (grid gaps, blocks in a card),
+  `card` (card padding = gutter/2); type scale `text-display/title/headline/subhead/card/nav/body/small`.
+  Layout grid: 3 columns with `gutter` (partners; "side" sections = title 1 col + content 2 cols),
+  4 columns for agenda and footer. Only exception: the hero composition (`Hero.astro`), tied to the artwork.
 - Code comments and identifiers in English; UI copy in French.
