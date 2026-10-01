@@ -26,37 +26,65 @@ const shapes = [
   { file: 'feuille-verte', left: 81.08, top: 51.88, width: 19.04, height: 36.56, rotate: 37.62, innerW: 37.02, innerH: 101.28 },
   { file: 'trait', left: 77.49, top: 66.92, width: 31.44, height: 22.84, rotate: 20.95, innerW: 104.66, innerH: 14.5 },
 ];
+
+// Phones: shapes split into two bands so the title and subtitle stay together.
+// The top band (layer y < SPLIT %) sits behind the title; the bottom band is
+// placed in the flow right after the subtitle. Each band remaps y to its own box.
+const SPLIT = 45;
+const haut = shapes.filter((s) => s.top < SPLIT);
+const bas = shapes.filter((s) => s.top >= SPLIT);
+const box = (s: (typeof shapes)[number], top: number) =>
+  `left:${s.left}%;top:${top}%;width:${s.width}%;aspect-ratio:${s.width * 1512}/${s.height * 900}`;
+const img = (s: (typeof shapes)[number]) =>
+  `width:${s.innerW}%;height:${s.innerH}%;transform:rotate(${s.rotate}deg)`;
 ---
+<!-- From sm up: one layer with the Figma composition. -->
 <div
-  class="pointer-events-none absolute inset-x-0 top-0 -z-10 aspect-[1512/2600] max-lg:top-28 sm:aspect-[1512/1500] lg:aspect-[1512/900]"
+  class="pointer-events-none absolute inset-x-0 top-18 -z-10 hidden aspect-[1512/1500] sm:block lg:top-0 lg:aspect-[1512/900]"
   aria-hidden="true"
 >
   {
     shapes.map((s) => (
-      <div
-        class="absolute flex items-center justify-center"
-        style={`left:${s.left}%;top:${s.top}%;width:${s.width}%;aspect-ratio:${s.width * 1512}/${s.height * 900}`}
-      >
-        <img
-          src={`/deco/${s.file}.svg`}
-          alt=""
-          class="max-w-none flex-none"
-          style={`width:${s.innerW}%;height:${s.innerH}%;transform:rotate(${s.rotate}deg)`}
-        />
+      <div class="absolute flex items-center justify-center" style={box(s, s.top)}>
+        <img src={`/deco/${s.file}.svg`} alt="" class="max-w-none flex-none" style={img(s)} />
       </div>
     ))
   }
 </div>
 
-<section class="relative flex flex-col pt-16 pb-16 sm:min-h-[calc(100vw*1500/1512)] lg:min-h-[calc(100vw*829/1512)] lg:pt-[calc(100vw*168/1512)] xl:min-h-[829px] xl:pt-[168px]">
+<!-- Phones: top band behind the title. -->
+<div
+  class="pointer-events-none absolute inset-x-0 top-20 -z-10 aspect-[1512/405] sm:hidden"
+  aria-hidden="true"
+>
+  {
+    haut.map((s) => (
+      <div class="absolute flex items-center justify-center" style={box(s, (s.top / SPLIT) * 100)}>
+        <img src={`/deco/${s.file}.svg`} alt="" class="max-w-none flex-none" style={img(s)} />
+      </div>
+    ))
+  }
+</div>
+
+<section class="relative flex flex-col pt-section sm:min-h-[calc(100vw*1500/1512)] sm:pt-16 sm:pb-16 lg:min-h-[calc(100vw*829/1512)] lg:pt-[calc(100vw*168/1512)] xl:min-h-[829px] xl:pt-[168px]">
   <h1 class="max-w-[1098px] text-display font-medium">
     {titre}
   </h1>
   {
     sousTitre && (
-      <p class="mt-72 max-w-md text-subhead tracking-normal sm:mt-8 lg:mt-auto lg:mb-[calc(100vw*63/1512)] lg:ml-[59%] xl:mb-[63px]">
+      <p class="mt-gutter max-w-md text-nav tracking-normal sm:mt-8 sm:text-subhead lg:mt-auto lg:mb-[calc(100vw*63/1512)] lg:ml-[59%] xl:mb-[63px]">
         {sousTitre}
       </p>
     )
   }
+  <!-- Phones: bottom band, in the flow after the subtitle (bleeds to the edges). -->
+  <div class="pointer-events-none relative -z-10 -mx-page aspect-[1512/495] sm:hidden" aria-hidden="true">
+    {
+      bas.map((s) => (
+        <div class="absolute flex items-center justify-center" style={box(s, ((s.top - SPLIT) / (100 - SPLIT)) * 100)}>
+          <img src={`/deco/${s.file}.svg`} alt="" class="max-w-none flex-none" style={img(s)} />
+        </div>
+      ))
+    }
+  </div>
 </section>

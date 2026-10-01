@@ -14,12 +14,35 @@ const links = [
   { href: '#contacts', label: 'Contacts' },
 ];
 ---
-<header class="relative z-10 flex flex-col gap-4 border-b border-encre py-gutter lg:flex-row lg:items-center lg:justify-between lg:py-7">
-  <a href="/" class="max-w-md text-small font-bold" aria-current={onHome ? 'page' : undefined}>
+<header
+  class="relative z-10 flex flex-wrap items-center justify-between gap-x-gutter border-b border-encre py-gutter lg:flex-nowrap lg:py-7"
+>
+  <a href="/" class="max-w-md min-w-0 text-small font-bold max-lg:flex-1" aria-current={onHome ? 'page' : undefined}>
     {title}
   </a>
-  <nav aria-label="Navigation principale">
-    <ul class="flex flex-wrap gap-x-6 gap-y-2 text-nav md:gap-x-14">
+
+  <!-- Burger button, below lg only. Hidden until the script runs, so the menu
+       stays visible (and usable) when JavaScript is unavailable. -->
+  <button
+    type="button"
+    id="menu-bouton"
+    class="menu-bouton hidden shrink-0 p-card -mr-card lg:hidden"
+    aria-controls="menu"
+    aria-expanded="false"
+  >
+    <span class="sr-only">Menu</span>
+    <svg class="size-7 overflow-visible" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <path class="icone-ouvrir" d="M3 7h22M3 14h22M3 21h22" />
+      <path class="icone-fermer" d="M6 6l16 16M22 6L6 22" />
+    </svg>
+  </button>
+
+  <nav
+    id="menu"
+    aria-label="Navigation principale"
+    class="menu max-lg:basis-full"
+  >
+    <ul class="flex flex-col gap-card pt-gutter text-subhead lg:flex-row lg:gap-x-14 lg:pt-0 lg:text-nav lg:tracking-normal">
       {
         links.map((link) => (
           <li>
@@ -36,3 +59,82 @@ const links = [
     </ul>
   </nav>
 </header>
+
+<style>
+  /* With JavaScript (html.js, set in BaseLayout), below lg the menu is
+     collapsed behind the burger button until opened. */
+  @media (width < 64rem) {
+    :global(html.js) .menu-bouton {
+      display: block;
+    }
+    /* Open menu: a full-width panel over the page, so the page doesn't jump. */
+    :global(html.js) .menu {
+      position: absolute;
+      top: 100%;
+      left: calc(var(--spacing-page) * -1);
+      right: calc(var(--spacing-page) * -1);
+      padding: 0 var(--spacing-page) var(--spacing-gutter);
+      background: var(--color-fond);
+      border-bottom: 1px solid var(--color-encre);
+      transition:
+        opacity 0.2s ease,
+        transform 0.2s ease,
+        visibility 0s;
+    }
+    /* Closed: faded and slightly raised. visibility (not display) keeps the
+       transition possible and still removes the links from keyboard and
+       screen reader navigation; it switches only once the fade has ended. */
+    :global(html.js) .menu:not(.ouvert) {
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(-0.5rem);
+      transition:
+        opacity 0.2s ease,
+        transform 0.2s ease,
+        visibility 0s 0.2s;
+    }
+  }
+  /* Burger and cross cross-fade with a quarter turn. */
+  .icone-ouvrir,
+  .icone-fermer {
+    transform-origin: center;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+  }
+  .menu-bouton[aria-expanded='true'] .icone-ouvrir,
+  .menu-bouton[aria-expanded='false'] .icone-fermer {
+    opacity: 0;
+    transform: rotate(45deg);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .icone-ouvrir,
+    .icone-fermer,
+    :global(html.js) .menu {
+      transition: none !important;
+    }
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    const button = document.getElementById('menu-bouton');
+    const menu = document.getElementById('menu');
+    if (!button || !menu) return;
+    const setOpen = (open) => {
+      menu.classList.toggle('ouvert', open);
+      button.setAttribute('aria-expanded', String(open));
+    };
+    button.addEventListener('click', () => setOpen(!menu.classList.contains('ouvert')));
+    // Close after choosing a link (same-page anchors) and on Escape.
+    menu.addEventListener('click', (e) => {
+      if (e.target.closest('a')) setOpen(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && menu.classList.contains('ouvert')) {
+        setOpen(false);
+        button.focus();
+      }
+    });
+  })();
+</script>

@@ -41,10 +41,10 @@
 
   /* Type scale from Figma (80 / 60 / 40 / 30 / 25 / 20 / 19 / 15).
      Inter is tightened on large sizes: -5% from 60px, -4% from 25 to 40px. */
-  --text-display: clamp(2.25rem, 0.9rem + 4.5vw, 5rem);
+  --text-display: clamp(2.5rem, 1.1rem + 4.5vw, 5rem);
   --text-display--line-height: 1.125;
   --text-display--letter-spacing: -0.05em;
-  --text-title: clamp(2.25rem, 1.4rem + 2.5vw, 3.75rem);
+  --text-title: clamp(2rem, 1.4rem + 2.5vw, 3.75rem);
   --text-title--line-height: 1.2;
   --text-title--letter-spacing: -0.05em;
   --text-headline: 2.5rem;
