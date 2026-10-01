@@ -6,7 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Two-page static site for the 2025 Marseille (AMU) colloquium on institutional psychotherapy:
 home (hero, À propos, Partenaires, Agenda et actualités, footer Contacts) and `/ressources/`.
-Astro SSG + Sveltia CMS (self-hosted bundle, GitHub backend, fine-grained PATs), Cloudflare Pages.
+Astro SSG + Sveltia CMS (self-hosted bundle, GitHub backend), Cloudflare Pages. Editors sign in with
+GitHub through this site's own OAuth Worker (`auth/`, Cloudflare Workers); token sign-in is a fallback.
 Hard constraints: zero recurring cost, zero maintenance after delivery, several non-technical editors.
 
 Full spec, editor guide and security model live in `README.md` (French) — read it before structural changes.
@@ -28,6 +29,7 @@ src/
 ├── components/               ← Hero (deco layer), Section, APropos, Partenaires, Agenda(Card), Header, Footer, RessourceItem
 ├── pages/{index,ressources}.astro, pages/rss.xml.ts
 └── assets/deco/*.svg         ← placeholder shapes, to be replaced by Figma exports
+auth/                         ← OAuth Worker (zero deps, deployed by hand with wrangler; excluded from tsconfig)
 ```
 
 ## Key rules
@@ -40,6 +42,8 @@ src/
 - **No scheduled jobs**: the agenda upcoming/past split is computed at build AND re-applied
   client-side by an inline script (`Agenda.astro`). Never add a cron/GitHub scheduled workflow.
 - **No files in the repo for resources**: PDFs live on the client's Google Drive; entries store links.
+- **OAuth Worker**: single-site, stateless (HMAC state), token posted only to an exact
+  `ALLOWED_ORIGINS` match. Keep it dependency-free and its `compatibility_date` frozen.
 - **No CDN at runtime**: Sveltia bundle and fonts (Fontsource) are self-hosted.
 - **Install with `npm ci`**; no dependency auto-updates.
 - Design reference: Figma frame "Desktop 8". Tokens in `src/styles/global.css` `@theme`.

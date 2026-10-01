@@ -49,41 +49,71 @@ Le modèle est défini **dans deux fichiers à garder synchronisés** :
   Si le champ est vide, le lien n'apparaît pas.
 - Après un enregistrement, le site est en ligne en 1 à 2 minutes.
 
-## Accès éditeurs (token GitHub sans expiration)
+## Accès éditeurs (connexion GitHub)
 
-Un *fine-grained token* ne peut viser que les dépôts de **son propriétaire** : un compte personnel ou une
-**organisation**. Le dépôt est donc hébergé dans une **organisation GitHub gratuite**, ce qui permet à
-chaque éditeur·rice d'utiliser son propre token.
+Les éditeur·rices se connectent sur `/admin` avec le bouton **« Se connecter avec GitHub »**. Ils n'ont
+aucun token à créer ni à copier. La connexion passe par un petit script hébergé sur Cloudflare
+(`auth/`, voir plus bas) et par une application OAuth GitHub propre à ce site.
 
-**Mise en place (une fois, par le compte propriétaire de l'organisation)** :
-1. Organisation → Settings → Personal access tokens :
-   - autoriser les *fine-grained tokens* ;
-   - **ne pas exiger d'approbation** ;
-   - **aucune durée de vie maximale**.
-2. Le dépôt appartient à l'organisation.
+- **Qui peut éditer** : tout compte GitHub qui a le droit **Write** sur le dépôt. Un simple
+  collaborateur du dépôt suffit, pas besoin d'organisation.
+- **Ajouter un·e éditeur·rice (≈ 5 min)** : la personne crée un compte GitHub. Le compte propriétaire
+  du dépôt l'invite (Settings → Collaborators → *Add people*, rôle *Write*). La personne accepte
+  l'invitation, puis se connecte sur `/admin`. À la première connexion, GitHub demande d'autoriser
+  l'application.
+- **Retirer un accès** : retirer la personne des collaborateurs du dépôt. Son ancienne session ne
+  peut alors plus rien modifier.
+- **Session** : GitHub révoque un jeton OAuth inutilisé pendant un an. Il suffit alors de cliquer de
+  nouveau sur « Se connecter avec GitHub ». Il n'y a rien à renouveler.
 
-**Ajouter un·e éditeur·rice (≈ 10 min)** :
-1. La personne crée un compte GitHub personnel, pour que les modifications soient traçables par personne.
-2. Le compte propriétaire l'invite dans l'organisation avec le rôle *Member*, puis lui donne le droit
-   **Write** sur le dépôt.
-3. La personne génère un token : GitHub → Settings → Developer settings →
-   [Fine-grained tokens](https://github.com/settings/personal-access-tokens) → *Generate new token* :
-   - **Resource owner** : l'organisation (pas son compte personnel) ;
-   - **Expiration** : *No expiration* ;
-   - **Repository access** : *Only select repositories* → ce dépôt seul ;
-   - **Permissions** → Repository → **Contents : Read and write**.
-4. Sur `<site>/admin`, choisir la connexion par token et coller le token.
+⚠️ Le jeton de session est stocké dans le **localStorage du navigateur**. Ne pas se connecter sur un
+poste partagé sans se déconnecter ensuite.
 
-**Révocation (≈ 5 min, en cas de fuite, de doute ou de départ)** :
-1. Retirer la personne de l'organisation.
-2. La personne, ou le propriétaire via Settings → Personal access tokens → Active tokens, révoque le token.
+⚠️ **Portée du jeton.** Une application OAuth GitHub ne peut pas être limitée à un seul dépôt : le
+jeton donne accès en écriture à **tous les dépôts publics** (portée `public_repo`) ou à **tous les
+dépôts** (portée `repo`) du compte qui se connecte. Pour limiter le risque :
+- garder **ce dépôt public**, avec `OAUTH_SCOPE = "public_repo"`. Le contenu est public de toute façon ;
+- utiliser des comptes GitHub **dédiés à ce site**, qui n'ont pas d'autres dépôts.
 
-⚠️ Le token est stocké dans le **localStorage du navigateur**. Ne pas se connecter sur un poste
-partagé sans se déconnecter ensuite. Il **n'expire jamais seul** : la révocation est manuelle.
+**Secours** : la connexion par token reste possible (bouton « Se connecter avec un jeton d'accès »).
+Pour un token sur un dépôt personnel, il faut être le propriétaire du dépôt. Les fine-grained tokens
+ne fonctionnent pas pour un collaborateur.
 
-⚠️ Risque accepté : `Contents: write` couvre tout le dépôt, code compris. Un token volé permet de
-modifier le site. C'est le prix d'une édition autonome sans serveur ; les accès restent limités à
-une équipe de confiance.
+### Connexion GitHub (Worker OAuth) — installation, une fois
+
+Tout se fait avec le compte Cloudflare du client (le même que pour Pages) et le compte GitHub
+propriétaire du dépôt. Le Worker est déployé à la main ; le build du site ne le touche pas.
+
+1. **Déployer le Worker** : il obtient son URL, par exemple `https://cms-auth.<compte>.workers.dev`.
+   ```bash
+   cd auth
+   npx wrangler login          # compte Cloudflare du client
+   npx wrangler deploy
+   ```
+2. **Créer l'application OAuth** : GitHub (compte propriétaire du dépôt) → Settings →
+   Developer settings → OAuth Apps → *New OAuth App* :
+   - Homepage URL : l'URL du site ;
+   - **Authorization callback URL** : `https://cms-auth.<compte>.workers.dev/callback`.
+
+   Noter le *Client ID* et générer un *Client secret*.
+3. **Secrets du Worker** :
+   ```bash
+   npx wrangler secret put GITHUB_CLIENT_ID
+   npx wrangler secret put GITHUB_CLIENT_SECRET
+   npx wrangler secret put STATE_SECRET     # valeur : openssl rand -hex 32
+   ```
+4. **`auth/wrangler.toml`** :
+   - `ALLOWED_ORIGINS` = l'URL exacte du site, sans `/` final, plus `http://localhost:4321` pour le dev ;
+   - `OAUTH_SCOPE` = `public_repo` si le dépôt est public.
+
+   Puis `npx wrangler deploy` une nouvelle fois.
+5. **`public/admin/config.yml`** : `base_url` = l'URL du Worker. Commit : le site se redéploie.
+6. **Test** : sur `<site>/admin`, cliquer sur « Se connecter avec GitHub » avec un compte collaborateur,
+   puis modifier un texte et vérifier le commit.
+
+Le Worker n'a aucune dépendance et sa date de compatibilité est figée (Cloudflare garantit que les
+anciennes dates restent prises en charge). Il n'y a rien à mettre à jour. En cas de fuite du secret :
+GitHub → OAuth App → *Generate a new client secret*, puis `npx wrangler secret put GITHUB_CLIENT_SECRET`.
 
 ## Modèle de sécurité (à conserver)
 
@@ -139,10 +169,12 @@ npm run check  # vérification des types
 
 ## Mise en production (Cloudflare Pages)
 
-1. Dans `public/admin/config.yml`, remplacer `repo: OWNER/REPO` par `organisation/depot`.
-2. Cloudflare → Workers & Pages → *Create* → Pages → *Connect to Git*. Installer l'application GitHub
-   de Cloudflare **sur l'organisation**, puis choisir ce dépôt, branche `main`.
+1. Dans `public/admin/config.yml`, remplacer `repo: OWNER/REPO` par `proprietaire/depot`.
+2. Cloudflare (compte du client) → Workers & Pages → *Create* → Pages → *Connect to Git*. Autoriser
+   l'application GitHub de Cloudflare sur le compte propriétaire du dépôt, puis choisir ce dépôt,
+   branche `main`.
 3. Build command : `npm run build`. Output : `dist`. Variable d'environnement `NODE_VERSION` = `22`.
 4. Reporter l'URL finale (`*.pages.dev` ou domaine universitaire) dans `astro.config.mjs` (`site:`).
-5. Vérifier les en-têtes : `curl -I <site>/uploads/<fichier>` doit renvoyer
+5. Installer la connexion GitHub (voir « Connexion GitHub (Worker OAuth) »).
+6. Vérifier les en-têtes : `curl -I <site>/uploads/<fichier>` doit renvoyer
    `Content-Security-Policy: default-src 'none'`.

@@ -9,3 +9,5 @@ dist
 .env.production
 # macOS
 .DS_Store
+# Client handover document (credentials) — never commit
+acces-client.md

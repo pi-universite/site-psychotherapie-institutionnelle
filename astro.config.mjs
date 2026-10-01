@@ -5,8 +5,8 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   // Canonical origin of the deployed site (Astro.site, sitemap, RSS…).
-  // TODO: replace with the production URL (*.pages.dev or the university domain).
-  site: 'https://example.com',
+  // Production URL (Cloudflare Pages project name = subdomain, fixed at creation).
+  site: 'https://psychotherapie-institutionnelle-universite.pages.dev',
   // Tailwind v4 is wired in through its Vite plugin (no separate integration).
   vite: {
     plugins: [tailwindcss()],

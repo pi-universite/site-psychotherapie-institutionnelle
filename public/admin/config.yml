@@ -3,9 +3,11 @@
 
 backend:
   name: github
-  # TODO: set to the client's GitHub organization repo before going live.
-  repo: OWNER/REPO
+  repo: pi-universite/site-psychotherapie-institutionnelle
   branch: main
+  # "Sign in with GitHub" goes through this site's OAuth Worker (auth/).
+  # Token sign-in stays available as a fallback.
+  base_url: https://cms-auth.pi-universite.workers.dev
 
 media_folder: public/uploads
 public_folder: /uploads
