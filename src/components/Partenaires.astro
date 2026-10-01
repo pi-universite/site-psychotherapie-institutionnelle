@@ -7,14 +7,32 @@ interface Props {
 }
 
 const { titre, laboratoires, soutiens } = Astro.props.data;
+
+// Figma: a vertical rule in the middle of the 20px gap before every column but
+// the first, and a bottom rule under every row but the last. Column count
+// changes with the breakpoint (1 / 2 at sm / 3 at lg), so classes are computed
+// per item for each grid.
+const n = laboratoires.length;
+const lastRowStart = (cols: number) => Math.floor((n - 1) / cols) * cols;
+function cellClasses(i: number) {
+  return [
+    i === n - 1 ? 'border-b-0' : 'border-b',
+    i % 2 ? 'sm:-ml-[10px] sm:border-l sm:pl-[10px]' : 'sm:ml-0 sm:border-l-0 sm:pl-0',
+    i >= lastRowStart(2) ? 'sm:border-b-0' : 'sm:border-b',
+    i % 3 ? 'lg:-ml-[10px] lg:border-l lg:pl-[10px]' : 'lg:ml-0 lg:border-l-0 lg:pl-0',
+    i >= lastRowStart(3) ? 'lg:border-b-0' : 'lg:border-b',
+  ];
+}
 ---
 <Section id="partenaires" titre={titre}>
-  <ul class="grid gap-x-3 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+  <ul class="grid gap-y-8 sm:grid-cols-2 sm:gap-x-5 lg:grid-cols-3 lg:gap-y-[25px]">
     {
-      laboratoires.map((lab) => (
-        <li class="flex flex-col border-b border-encre/70 pb-6 sm:border-r sm:border-b-encre/70 sm:pr-4">
+      laboratoires.map((lab, i) => (
+        // Subgrid: establishment, laboratory and team blocks line up across a row.
+        <li class:list={['row-span-3 grid grid-rows-subgrid gap-y-0 border-encre pb-6 lg:pb-[26px]', cellClasses(i)]}>
           <p class="label">{lab.etablissement}</p>
-          <h3 class="mt-4 text-xl leading-tight lg:text-[1.35rem]">
+          <div>
+          <h3 class="mt-5 text-2xl leading-[1.07] tracking-[-0.04em] lg:text-[30px]">
             {lab.url ? (
               <a href={lab.url} class="hover:underline" rel="noopener">
                 {lab.laboratoire}
@@ -23,11 +41,13 @@ const { titre, laboratoires, soutiens } = Astro.props.data;
               lab.laboratoire
             )}
           </h3>
-          {lab.logo && <img src={lab.logo} alt="" class="mt-4 h-10 w-auto self-start" loading="lazy" />}
+          {lab.logo && <img src={lab.logo} alt="" class="mt-4 h-10 w-auto" loading="lazy" />}
+          </div>
+          <div class="pt-6">
           {lab.membres.length > 0 && (
-            <div class="mt-auto pt-6">
+            <>
               {lab.equipe_label && <p class="label font-normal">{lab.equipe_label} :</p>}
-              <ul class="mt-3 font-serif text-sm leading-snug">
+              <ul class="mt-5 font-serif text-base leading-snug lg:text-[19px] lg:leading-6">
                 {lab.membres.map((m) => (
                   <li>
                     {m.url ? (
@@ -46,8 +66,9 @@ const { titre, laboratoires, soutiens } = Astro.props.data;
                   </li>
                 ))}
               </ul>
-            </div>
+            </>
           )}
+          </div>
         </li>
       ))
     }

@@ -45,7 +45,7 @@ function groupByAuthor(items: Ressource[]) {
   <div id="toutes">
     {
       categories.map((c) => (
-        <section id={c.anchor} data-categorie={c.anchor} class="border-t border-encre/70 py-12 md:grid md:grid-cols-[minmax(0,475fr)_minmax(0,917fr)]">
+        <section id={c.anchor} data-categorie={c.anchor} class="border-t border-encre py-12 md:grid md:grid-cols-[minmax(0,475fr)_minmax(0,917fr)] lg:py-[60px]">
           <h2 class="mb-8 text-4xl leading-tight md:text-5xl">{c.label}</h2>
           {c.items.length === 0 ? (
             <p class="font-serif">Aucune ressource pour le moment.</p>

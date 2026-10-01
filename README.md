@@ -15,7 +15,7 @@ reprend l'agenda et les ressources.
 |---|---|---|
 | Astro | 7.x | génération statique |
 | Tailwind | 4.x | styles (tokens dans `src/styles/global.css`) |
-| Polices | Inter + Gelasio via Fontsource | auto-hébergées, aucun CDN |
+| Polices | Inter (Fontsource) + Georgia (système, repli Gelasio via Fontsource) | celles de la maquette, auto-hébergées |
 | marked + sanitize-html | au build | rendu sûr du markdown saisi dans le CMS |
 | Sveltia CMS | **0.227.0, auto-hébergé** (`public/admin/sveltia-cms.js`) | édition du contenu |
 | Backend CMS | GitHub, branche `main` | chaque enregistrement = un commit |
@@ -155,9 +155,9 @@ puis mettre à jour la version dans ce README et commit.
 
 ## Décors
 
-Les formes du titre (`src/assets/deco/*.svg`) sont **provisoires**. Elles ont été redessinées d'après la
-maquette et sont placées selon les positions du cadre Figma *Desktop 8* (`src/components/Hero.astro`).
-Il faut les remplacer par les exports SVG du Figma, à fichier et nom identiques.
+Les formes du titre sont les SVG exportés de la maquette Figma (frame *Desktop - 8*), dans
+`public/deco/`. Leur position, leur taille et leur rotation reprennent celles de Figma
+(`src/components/Hero.astro`). Pour en changer une, réexporter le SVG depuis Figma sous le même nom.
 
 ## Dev local
 

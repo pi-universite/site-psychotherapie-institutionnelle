@@ -21,6 +21,7 @@ content/                      ← written by Sveltia CMS
 ├── ressources/*.md           ← one file per resource (frontmatter only)
 └── reglages/site.yml         ← contacts, newsletter URL, meta
 public/admin/                 ← Sveltia bundle (committed) + config.yml
+public/deco/*.svg             ← hero shapes exported from Figma (Desktop - 8), placed in Hero.astro
 src/
 ├── content.config.ts         ← Zod schemas — mirror of public/admin/config.yml
 ├── lib/content.ts            ← queries, agenda upcoming/past ordering, type/category labels
@@ -28,7 +29,6 @@ src/
 ├── lib/dates.ts              ← French date ranges, formatted in UTC
 ├── components/               ← Hero (deco layer), Section, APropos, Partenaires, Agenda(Card), Header, Footer, RessourceItem
 ├── pages/{index,ressources}.astro, pages/rss.xml.ts
-└── assets/deco/*.svg         ← placeholder shapes, to be replaced by Figma exports
 auth/                         ← OAuth Worker (zero deps, deployed by hand with wrangler; excluded from tsconfig)
 ```
 

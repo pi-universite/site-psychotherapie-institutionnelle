@@ -19,10 +19,11 @@
   --color-deco-bleu: #60acff;
   --color-deco-vert: #04c65b;
 
-  /* Self-hosted through Fontsource (no CDN at runtime). Gelasio is
-     metric-compatible with Georgia, the serif used in the mockup. */
+  /* Figma uses Inter and Georgia. Inter is self-hosted (Fontsource); Georgia
+     is a system font on macOS/Windows, and Gelasio (metric-compatible,
+     self-hosted) only downloads where Georgia is missing (Android, Linux). */
   --font-sans: "Inter Variable", system-ui, -apple-system, sans-serif;
-  --font-serif: "Gelasio", Georgia, "Times New Roman", serif;
+  --font-serif: Georgia, "Gelasio", "Times New Roman", serif;
 }
 
 @layer base {
@@ -41,11 +42,14 @@
 }
 
 /* Small uppercase label used across sections (establishment, type, team). */
+/* Figma: Inter 15px, bold, uppercase (slightly smaller on small screens). */
 @utility label {
   font-family: var(--font-sans);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   line-height: 1.2;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-weight: 700;
   text-transform: uppercase;
+  @media (width >= 64rem) {
+    font-size: 0.9375rem;
+  }
 }
