@@ -131,7 +131,8 @@ tous posés une fois pour toutes :
 ### Sveltia auto-hébergé (pas de CDN)
 
 `public/admin/index.html` charge `/admin/sveltia-cms.js` en local. Le fichier (~2 Mo) est commité,
-c'est voulu : la version est figée et il n'y a aucune dépendance à un CDN.
+c'est voulu : la version du CMS est figée. Au chargement, l'admin récupère encore ses polices
+d'interface et quelques modules annexes sur des CDN (jsdelivr, unpkg). Le site public n'en dépend pas.
 Il n'y a pas de mise à jour automatique, seulement une veille : sur GitHub,
 [sveltia/sveltia-cms](https://github.com/sveltia/sveltia-cms) → Watch → Custom → **Releases**.
 On n'agit qu'en cas de faille de sécurité annoncée. Mise à jour vérifiée (intégrité contrôlée par npm) :

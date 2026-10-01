@@ -11,3 +11,6 @@ dist
 .DS_Store
 # Client handover document (credentials) — never commit
 acces-client.md
+
+# Client delivery guide (credentials + screenshots) — never commit
+livraison/
