@@ -11,7 +11,7 @@ workers_dev = true
 
 [vars]
 # Exact origins (scheme + host, no trailing slash) allowed to receive tokens.
-ALLOWED_ORIGINS = "https://psychotherapie-institutionnelle-universite.pages.dev,http://localhost:4321"
+ALLOWED_ORIGINS = "https://psychotherapie-institutionnelle.pages.dev,http://localhost:4321"
 # "public_repo" if the repository is public, "repo" if it is private.
 OAUTH_SCOPE = "public_repo"
 

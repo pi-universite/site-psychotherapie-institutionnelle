@@ -62,15 +62,33 @@ async function isValidState(secret: string, state: string): Promise<boolean> {
 // in the allow-list, and only to that exact origin.
 function messagePage(origins: string[], status: 'success' | 'error', content: unknown): Response {
   const message = `authorization:github:${status}:${JSON.stringify(content)}`;
-  const html = `<!doctype html><html><body><script>
+  // Failures are shown in the popup (instead of a silent blank page) so an
+  // editor or the developer can tell what went wrong.
+  const html = `<!doctype html><html lang="fr"><body style="font:16px system-ui;padding:2rem">
+<p id="status">Connexion en cours…</p>
+<script>
 (() => {
   const allowed = ${JSON.stringify(origins)};
   const message = ${JSON.stringify(message)};
+  const status = document.getElementById('status');
+  const fail = (text) => { status.textContent = text; };
+  if (!window.opener) {
+    fail("La fenêtre de l'administration est introuvable. Fermez cette fenêtre et réessayez depuis l'administration.");
+    return;
+  }
+  let answered = false;
   window.addEventListener('message', (event) => {
-    if (!allowed.includes(event.origin)) return;
+    answered = true;
+    if (!allowed.includes(event.origin)) {
+      fail('Adresse non autorisée : ' + event.origin + ". Elle doit figurer dans ALLOWED_ORIGINS (auth/wrangler.toml).");
+      return;
+    }
     window.opener.postMessage(message, event.origin);
   }, false);
   window.opener.postMessage('authorizing:github', '*');
+  setTimeout(() => {
+    if (!answered) fail("L'administration n'a pas répondu. Fermez cette fenêtre et réessayez.");
+  }, 5000);
 })();
 </script></body></html>`;
   return new Response(html, {
