@@ -1,0 +1,21 @@
+# Security headers, applied by the host at serve time (supported by Netlify
+# and Cloudflare Pages; for Vercel use vercel.json, for GitHub Pages custom
+# headers are NOT possible — see README caveats).
+
+# Uploaded media: an SVG/HTML file opened directly would otherwise execute
+# scripts on this origin (where the CMS token lives). This CSP blocks that;
+# images still display normally via <img> tags.
+/uploads/*
+  Content-Security-Policy: default-src 'none'
+  X-Content-Type-Options: nosniff
+
+# Site-wide hardening. Deliberately minimal: a strict CSP would be a
+# maintenance burden (breaks on the next feature) — sanitization at build
+# time does the heavy anti-XSS lifting instead.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# The admin must never be embeddable (clickjacking on the CMS session).
+/admin/*
+  X-Frame-Options: DENY

@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Item from '../components/RessourceItem.astro';
+import { getRessourcesParCategorie, type Ressource } from '../lib/content';
+
+const categories = await getRessourcesParCategorie();
+
+// Texts are listed under author headings; other categories are flat lists.
+function groupByAuthor(items: Ressource[]) {
+  const groups = new Map<string, Ressource[]>();
+  for (const item of items) {
+    const key = item.data.auteur ?? 'Divers';
+    groups.set(key, [...(groups.get(key) ?? []), item]);
+  }
+  return [...groups.entries()];
+}
+---
+<BaseLayout title="Ressources">
+  <section class="py-16 md:py-24">
+    <h1 class="text-5xl leading-tight font-medium tracking-tight md:text-7xl">Ressources</h1>
+    <p class="mt-6 max-w-[62ch] font-serif">
+      Textes, podcasts, films et ressources partenaires sur l'histoire et l'actualité de la recherche en psychothérapie
+      institutionnelle. Cette page s'enrichit au fil des contributions.
+    </p>
+    <nav aria-label="Catégories de ressources" class="mt-10">
+      <ul class="flex flex-wrap gap-2" id="filtres">
+        <li>
+          <a href="#toutes" data-filtre="toutes" class="label inline-block border border-encre px-3 py-2 hover:bg-encre hover:text-fond aria-[current=true]:bg-encre aria-[current=true]:text-fond">
+            Tout
+          </a>
+        </li>
+        {
+          categories.map((c) => (
+            <li>
+              <a href={`#${c.anchor}`} data-filtre={c.anchor} class="label inline-block border border-encre px-3 py-2 hover:bg-encre hover:text-fond aria-[current=true]:bg-encre aria-[current=true]:text-fond">
+                {c.label} <span class="font-normal">({c.items.length})</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </section>
+
+  <div id="toutes">
+    {
+      categories.map((c) => (
+        <section id={c.anchor} data-categorie={c.anchor} class="border-t border-encre/70 py-12 md:grid md:grid-cols-[minmax(0,475fr)_minmax(0,917fr)]">
+          <h2 class="mb-8 text-4xl leading-tight md:text-5xl">{c.label}</h2>
+          {c.items.length === 0 ? (
+            <p class="font-serif">Aucune ressource pour le moment.</p>
+          ) : c.categorie === 'textes' ? (
+            <div class="space-y-10">
+              {groupByAuthor(c.items).map(([auteur, items]) => (
+                <div>
+                  <h3 class="label">{auteur}</h3>
+                  <ul class="mt-3 divide-y divide-encre/30 border-y border-encre/30">
+                    {items.map((r) => <Item r={r} />)}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <ul class="divide-y divide-encre/30 border-y border-encre/30">
+              {c.items.map((r) => <Item r={r} />)}
+            </ul>
+          )}
+        </section>
+      ))
+    }
+  </div>
+</BaseLayout>
+
+<script is:inline>
+  // Optional filtering: without JS the anchors simply scroll to each section.
+  (() => {
+    const links = document.querySelectorAll('#filtres [data-filtre]');
+    const sections = document.querySelectorAll('[data-categorie]');
+    const apply = () => {
+      const current = location.hash.slice(1);
+      const known = [...sections].some((s) => s.id === current);
+      const filtre = known ? current : 'toutes';
+      sections.forEach((s) => (s.hidden = filtre !== 'toutes' && s.id !== filtre));
+      links.forEach((l) => l.setAttribute('aria-current', String(l.dataset.filtre === filtre)));
+    };
+    window.addEventListener('hashchange', apply);
+    apply();
+  })();
+</script>

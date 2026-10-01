@@ -1,0 +1,43 @@
+titre: Partenaires
+laboratoires:
+  - etablissement: Aix-Marseille-Université
+    laboratoire: Laboratoire de Psychologie Clinique, de Psychopathologie et de Psychanalyse (LPCPP, UR 3278)
+    url: https://lpcpp.fr/
+    equipe_label: Équipe psychanalyse
+    membres:
+      - nom: FERNANDEZ Victoria Isabel
+        url: https://lpcpp.fr/isabel-fernandez/
+      - nom: ROBERT Nicolas
+        url: https://lpcpp.fr/robert-nicolas/
+  - etablissement: CNRS-ENS
+    laboratoire: "Les Archives Husserl (UMR 8547) « Pays germaniques : histoire, culture, philosophie »"
+    url: https://philosophie.ens.fr/Les-Archives-Husserl-51.html
+    equipe_label: Équipe psychanalyse
+    membres:
+      - nom: LEGRAND Dorothée
+        url: https://paysgermaniques.fr/dorothee-legrand/
+  - etablissement: Université Toulouse Jean-Jaurès
+    laboratoire: Equipe de Recherche sur les Rationalités Philosophiques et les Savoirs (ERRAPHIS, EA3051)
+    url: https://erraphis.univ-tlse2.fr/
+    equipe_label: Équipe psychanalyse
+    membres:
+      - nom: GOZE Tudi
+        url: https://erraphis.univ-tlse2.fr/accueil-erraphis/equipe/goze-tudi
+        bio: Tudi GOZE est psychiatre et docteur en philosophie, il est Maître de Conférences des Universités et Praticien Hospitalier à l'Université de Toulouse (ERRAPHIS EA 3051) et exerce au Centre Hospitalier Lavaur. Spécialiste de phénoménologie contemporaine, de psychopathologie des psychoses et de psychothérapie institutionnelle. Il est l'auteur de Phénoménologie et Schizophrénie (Hermann, 2024) et Expérience de la rencontre schizophrénique (Hermann, 2020).
+  - etablissement: Université Paris-Cité
+    laboratoire: Centre de recherches psychanalyse, médecine et société (CRPMS)
+    url: https://u-paris.fr/ihss/accueil/laboratoires/crpms/
+    equipe_label: Équipe psychanalyse
+    membres:
+      - nom: DARGENT Fanny
+        url: https://u-paris.fr/ihss/accueil/laboratoires/crpms/chercheurs-titulaires/fanny-dargent/
+      - nom: LEPOUTRE Thomas
+        url: https://u-paris.fr/ihss/accueil/laboratoires/crpms/chercheurs-titulaires/thomas-lepoutre/
+  - etablissement: Université Rennes 2
+    laboratoire: Recherches en psychopathologie et psychanalyse (RPpsy)
+    url: https://www.rppsy.fr/site/rennes/
+    equipe_label: Équipe psychanalyse
+    membres:
+      - nom: VEIT Camille
+        url: https://perso.univ-rennes2.fr/camille.veit
+soutiens: []

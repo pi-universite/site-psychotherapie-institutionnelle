@@ -1,0 +1,38 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+const onHome = Astro.url.pathname === '/';
+// Section links must work from /ressources/ too, hence the leading "/".
+const links = [
+  { href: '/#a-propos', label: 'À propos' },
+  { href: '/#partenaires', label: 'Partenaires' },
+  { href: '/#agenda', label: 'Agenda' },
+  { href: '/ressources/', label: 'Ressources' },
+  { href: '#contacts', label: 'Contacts' },
+];
+---
+<header class="relative z-10 flex flex-col gap-4 border-b border-encre/70 py-5 lg:flex-row lg:items-end lg:justify-between lg:py-6">
+  <a href="/" class="max-w-xs text-sm leading-tight font-semibold" aria-current={onHome ? 'page' : undefined}>
+    {title}
+  </a>
+  <nav aria-label="Navigation principale">
+    <ul class="flex flex-wrap gap-x-6 gap-y-2 text-base md:gap-x-14 lg:text-lg">
+      {
+        links.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="underline-offset-4 hover:underline"
+              aria-current={link.href === Astro.url.pathname ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>

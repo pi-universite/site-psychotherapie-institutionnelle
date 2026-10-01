@@ -1,0 +1,29 @@
+---
+import type { getSettings } from '../lib/content';
+
+interface Props {
+  settings: Awaited<ReturnType<typeof getSettings>>;
+}
+
+const { settings } = Astro.props;
+---
+<footer id="contacts" class="grid gap-8 border-t border-encre/70 py-12 md:grid-cols-[1fr_1fr_1fr_1fr] md:items-start">
+  <h2 class="text-4xl md:text-5xl">Contacts</h2>
+  {settings.adresse && <p class="label whitespace-pre-line font-normal">{settings.adresse}</p>}
+  <p class="label font-normal">
+    {settings.email && <a href={`mailto:${settings.email}`} class="hover:underline">{settings.email}</a>}
+    {settings.email && settings.telephone && <br />}
+    {settings.telephone && <a href={`tel:${settings.telephone.replace(/[^+\d]/g, '')}`} class="hover:underline">{settings.telephone}</a>}
+  </p>
+  {
+    settings.newsletter_url && (
+      <p class="label font-normal">
+        Newsletter
+        <br />
+        <a href={settings.newsletter_url} class="font-semibold underline underline-offset-2" rel="noopener">
+          {settings.newsletter_label}
+        </a>
+      </p>
+    )
+  }
+</footer>

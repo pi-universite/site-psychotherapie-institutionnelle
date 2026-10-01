@@ -1,0 +1,3 @@
+# Keep the CMS admin out of search engine indexes.
+User-agent: *
+Disallow: /admin/

@@ -1,0 +1,23 @@
+---
+interface Props {
+  id: string;
+  titre: string;
+  // "side": heading in a left column (À propos); "top": heading above.
+  layout?: 'side' | 'top';
+}
+
+const { id, titre, layout = 'top' } = Astro.props;
+---
+<section
+  id={id}
+  aria-labelledby={`${id}-titre`}
+  class:list={[
+    'border-t border-encre/70 py-12 md:py-16',
+    layout === 'side' && 'md:grid md:grid-cols-[minmax(0,475fr)_minmax(0,917fr)]',
+  ]}
+>
+  <h2 id={`${id}-titre`} class="mb-10 text-4xl leading-tight md:text-5xl">{titre}</h2>
+  <div>
+    <slot />
+  </div>
+</section>

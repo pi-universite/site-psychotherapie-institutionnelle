@@ -1,0 +1,54 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getSettings } from '../lib/content';
+import '../styles/global.css';
+// Fonts are self-hosted through Fontsource (no CDN at runtime).
+import '@fontsource-variable/inter';
+import '@fontsource/gelasio/400.css';
+import '@fontsource/gelasio/400-italic.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const settings = await getSettings();
+const { title, description = settings.meta_description } = Astro.props;
+
+const siteName = settings.titre_court;
+const fullTitle = title ? `${title} — ${siteName}` : siteName;
+// Absolute URLs required by Open Graph, resolved against `site` in astro.config.mjs.
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="application/rss+xml" title={siteName} href="/rss.xml" />
+    <title>{fullTitle}</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="fr_FR" />
+  </head>
+  <body class="min-h-screen bg-fond font-sans text-encre antialiased">
+    <a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:bg-fond focus:p-2">
+      Aller au contenu
+    </a>
+    <div class="relative isolate mx-auto max-w-[1512px] overflow-x-clip px-4 sm:px-8 lg:px-[60px]">
+      <Header title={settings.titre_court} />
+      <main id="contenu">
+        <slot />
+      </main>
+      <Footer settings={settings} />
+    </div>
+  </body>
+</html>

@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import APropos from '../components/APropos.astro';
+import Partenaires from '../components/Partenaires.astro';
+import Agenda from '../components/Agenda.astro';
+import { getAccueil, getPartenaires } from '../lib/content';
+
+const [hero, aPropos, partenaires] = await Promise.all([
+  getAccueil('hero'),
+  getAccueil('a-propos'),
+  getPartenaires(),
+]);
+---
+<BaseLayout>
+  <Hero titre={hero.titre} sousTitre={hero.sous_titre} />
+  <APropos titre={aPropos.titre} texte={aPropos.texte} />
+  <Partenaires data={partenaires} />
+  <Agenda />
+</BaseLayout>

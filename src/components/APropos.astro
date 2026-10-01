@@ -1,0 +1,15 @@
+---
+import Section from './Section.astro';
+import { renderMarkdown } from '../lib/markdown';
+
+interface Props {
+  titre: string;
+  texte?: string;
+}
+
+const { titre, texte } = Astro.props;
+const html = await renderMarkdown(texte);
+---
+<Section id="a-propos" titre={titre} layout="side">
+  <div class="max-w-[780px] font-serif text-[0.95rem] leading-snug [&_a]:underline [&_p+p]:mt-0" set:html={html} />
+</Section>

@@ -1,0 +1,48 @@
+---
+import Section from './Section.astro';
+import AgendaCard from './AgendaCard.astro';
+import { getAgenda, lastDay } from '../lib/content';
+import { isoDay } from '../lib/dates';
+
+const events = await getAgenda();
+const today = isoDay(new Date());
+---
+<Section id="agenda" titre="Agenda et actualités">
+  {
+    events.length === 0 ? (
+      <p class="font-serif">Aucun événement pour le moment.</p>
+    ) : (
+      <ul id="agenda-liste" class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {events.map((event) => (
+          <AgendaCard event={event} past={lastDay(event) < today} />
+        ))}
+      </ul>
+    )
+  }
+</Section>
+
+<style>
+  /* Past events stay listed (archive) but fade out. */
+  :global(.agenda-card[data-past]) {
+    opacity: 0.55;
+  }
+</style>
+
+<script is:inline>
+  // The order above was computed at build time. Re-apply it with today's date
+  // so an event that ended since the last rebuild moves to the past group —
+  // no scheduled rebuild needed.
+  (() => {
+    const list = document.getElementById('agenda-liste');
+    if (!list) return;
+    const today = new Date().toISOString().slice(0, 10);
+    const cards = [...list.children];
+    const upcoming = cards.filter((c) => c.dataset.fin >= today);
+    const past = cards.filter((c) => c.dataset.fin < today);
+    upcoming.sort((a, b) => a.dataset.debut.localeCompare(b.dataset.debut));
+    past.sort((a, b) => b.dataset.debut.localeCompare(a.dataset.debut));
+    upcoming.forEach((c) => c.removeAttribute('data-past'));
+    past.forEach((c) => c.setAttribute('data-past', ''));
+    list.append(...upcoming, ...past);
+  })();
+</script>

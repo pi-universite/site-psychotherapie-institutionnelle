@@ -1,0 +1,55 @@
+---
+import { AGENDA_TYPE_META, lastDay, type Evenement } from '../lib/content';
+import { formatDateRange, isoDay } from '../lib/dates';
+
+interface Props {
+  event: Evenement;
+  past: boolean;
+}
+
+const { event, past } = Astro.props;
+const e = event.data;
+const meta = AGENDA_TYPE_META[e.type];
+const dates = formatDateRange(e.date_debut, e.date_fin);
+// Calls for papers have no venue: the mockup shows them with a large title.
+const isCall = e.type === 'appel';
+---
+<li
+  class:list={['agenda-card flex min-h-[26rem] flex-col p-3', meta.bg]}
+  data-debut={isoDay(e.date_debut)}
+  data-fin={lastDay(event)}
+  data-past={past ? '' : undefined}
+>
+  {
+    isCall ? (
+      <h3 class="text-4xl leading-[1.05] font-medium tracking-tight">{e.titre}</h3>
+    ) : (
+      <>
+        <p class="border-b border-encre pb-2 text-sm">
+          <time datetime={isoDay(e.date_debut)}>{dates}</time>
+          {e.horaire && <> : {e.horaire}</>}
+        </p>
+        {e.lieu && <p class="border-b border-encre py-2 text-sm uppercase">{e.lieu}</p>}
+        <h3 class="mt-3 text-xl leading-tight font-semibold">{e.titre}</h3>
+      </>
+    )
+  }
+  {e.description && <p class="mt-3 font-serif text-sm leading-snug">{e.description}</p>}
+  {
+    isCall && (
+      <p class="mt-3 text-sm">
+        Date limite : <time datetime={isoDay(e.date_debut)}>{dates}</time>
+      </p>
+    )
+  }
+  <p class="mt-auto flex items-baseline justify-between gap-4 border-t border-encre pt-3">
+    <span class="label">{meta.label}</span>
+    {
+      e.lien && (
+        <a href={e.lien} class="label font-normal underline underline-offset-2" rel="noopener">
+          {e.lien_label || 'Site web'}
+        </a>
+      )
+    }
+  </p>
+</li>

@@ -1,0 +1,148 @@
+# Sveltia CMS configuration. Mirror of src/content.config.ts: any change to the
+# content model goes to BOTH files.
+
+backend:
+  name: github
+  # TODO: set to the client's GitHub organization repo before going live.
+  repo: OWNER/REPO
+  branch: main
+
+media_folder: public/uploads
+public_folder: /uploads
+
+# Entry filenames become stable ids: force ASCII slugs (no accents/spaces).
+slug:
+  encoding: ascii
+  clean_accents: true
+
+collections:
+  # --- Home page singletons -------------------------------------------------
+  - name: accueil
+    label: Page d'accueil
+    icon: home
+    files:
+      - name: hero
+        label: En-tête (titre du site)
+        file: content/accueil/hero.yml
+        fields:
+          - { label: Titre, name: titre, widget: text }
+          - { label: Sous-titre, name: sous_titre, widget: text, required: false }
+
+      - name: a-propos
+        label: À propos
+        file: content/accueil/a-propos.yml
+        fields:
+          - { label: Titre de la section, name: titre, widget: string, default: "À propos" }
+          - { label: Texte, name: texte, widget: markdown, required: false }
+
+      - name: partenaires
+        label: Partenaires
+        file: content/accueil/partenaires.yml
+        fields:
+          - { label: Titre de la section, name: titre, widget: string, default: "Partenaires" }
+          - label: Laboratoires
+            name: laboratoires
+            widget: list
+            hint: "L'ordre de la liste est l'ordre d'affichage (glisser-déposer)."
+            summary: "{{fields.laboratoire}}"
+            fields:
+              - { label: Établissement, name: etablissement, widget: string, hint: "Ex. Aix-Marseille-Université" }
+              - { label: Laboratoire, name: laboratoire, widget: string }
+              - { label: Site du laboratoire, name: url, widget: string, required: false }
+              - { label: Logo, name: logo, widget: image, required: false }
+              - { label: Intitulé de l'équipe, name: equipe_label, widget: string, required: false, default: "Équipe psychanalyse" }
+              - label: Membres
+                name: membres
+                widget: list
+                summary: "{{fields.nom}}"
+                fields:
+                  - { label: Nom, name: nom, widget: string, hint: "NOM Prénom" }
+                  - { label: Page personnelle, name: url, widget: string, required: false }
+                  - { label: Présentation, name: bio, widget: text, required: false }
+          - label: Soutiens
+            name: soutiens
+            widget: list
+            required: false
+            hint: "Financeurs et soutiens (ex. Ville de Marseille)."
+            summary: "{{fields.nom}}"
+            fields:
+              - { label: Nom, name: nom, widget: string }
+              - { label: Logo, name: logo, widget: image, required: false }
+              - { label: Lien, name: url, widget: string, required: false }
+
+  # --- Agenda -----------------------------------------------------------------
+  - name: agenda
+    label: Agenda et actualités
+    label_singular: Événement
+    icon: event
+    folder: content/agenda
+    create: true
+    slug: "{{year}}-{{slug}}"
+    summary: "{{date_debut | date('DD/MM/YYYY')}} — {{titre}}"
+    sortable_fields: [date_debut, titre]
+    fields:
+      - { label: Titre, name: titre, widget: string }
+      - label: Type
+        name: type
+        widget: select
+        options:
+          - { label: Colloque, value: colloque }
+          - { label: Appel à communications / à projets, value: appel }
+          - { label: Journée d'étude, value: journee-etude }
+          - { label: Séminaire, value: seminaire }
+          - { label: Autre, value: autre }
+      - { label: Date (ou date limite), name: date_debut, widget: datetime, time_format: false, format: "YYYY-MM-DD" }
+      - { label: Date de fin, name: date_fin, widget: datetime, time_format: false, format: "YYYY-MM-DD", required: false, hint: "Pour un événement sur plusieurs jours" }
+      - { label: Horaire, name: horaire, widget: string, required: false, hint: "Ex. 9h30 — 17h30" }
+      - { label: Lieu, name: lieu, widget: string, required: false, hint: "Ex. Campus Saint-Charles (Marseille)" }
+      - { label: Description, name: description, widget: text, required: false, hint: "Quelques lignes" }
+      - { label: Lien, name: lien, widget: string, required: false, hint: "Inscription, appel, programme…" }
+      - { label: Texte du lien, name: lien_label, widget: string, required: false, default: "Site web" }
+      - { label: Affiche, name: image, widget: image, required: false }
+      - { label: Publié, name: publie, widget: boolean, default: true }
+
+  # --- Resources --------------------------------------------------------------
+  - name: ressources
+    label: Ressources
+    label_singular: Ressource
+    icon: library_books
+    folder: content/ressources
+    create: true
+    slug: "{{slug}}"
+    summary: "{{titre}}"
+    sortable_fields: [titre, auteur, annee]
+    view_groups:
+      - { label: Catégorie, field: categorie }
+    fields:
+      - { label: Titre, name: titre, widget: string }
+      - label: Catégorie
+        name: categorie
+        widget: select
+        options:
+          - { label: Textes, value: textes }
+          - { label: Podcasts, value: podcasts }
+          - { label: Filmographie, value: filmographie }
+          - { label: Ressources partenaires, value: partenaires }
+      - { label: Auteur·rice, name: auteur, widget: string, required: false, hint: "NOM Prénom — les textes sont regroupés par auteur·rice" }
+      - { label: Année, name: annee, widget: number, value_type: int, required: false }
+      - { label: Source, name: source, widget: string, required: false, hint: "Ex. Cairn, France Culture, YouTube" }
+      - { label: Lien, name: url, widget: string, required: false, hint: "Lien Google Drive, Cairn, Radio France, YouTube… Les PDF se déposent sur le Drive, pas ici." }
+      - { label: Description, name: description, widget: text, required: false }
+      - { label: Publié, name: publie, widget: boolean, default: true }
+
+  # --- Settings ---------------------------------------------------------------
+  - name: reglages
+    label: Réglages
+    icon: settings
+    files:
+      - name: site
+        label: Contacts et site
+        file: content/reglages/site.yml
+        fields:
+          - { label: Titre court (en-tête), name: titre_court, widget: text }
+          - { label: Description (moteurs de recherche), name: meta_description, widget: text }
+          - { label: Adresse, name: adresse, widget: text, required: false }
+          - { label: E-mail, name: email, widget: string, required: false }
+          - { label: Téléphone, name: telephone, widget: string, required: false }
+          - { label: Lien du formulaire newsletter, name: newsletter_url, widget: string, required: false, hint: "Lien vers le formulaire d'inscription hébergé (ex. Brevo). Vide = lien masqué." }
+          - { label: Texte du lien newsletter, name: newsletter_label, widget: string, default: "Formulaire d'inscription" }

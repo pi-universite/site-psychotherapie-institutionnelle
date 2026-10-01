@@ -1,0 +1,25 @@
+---
+import type { Ressource } from '../lib/content';
+
+interface Props {
+  r: Ressource;
+}
+
+const { titre, url, source, annee, description } = Astro.props.r.data;
+const meta = [source, annee].filter(Boolean).join(' · ');
+---
+<li class="py-4">
+  <p class="text-lg leading-snug">
+    {
+      url ? (
+        <a href={url} class="underline-offset-4 hover:underline" rel="noopener">
+          {titre} <span aria-hidden="true">↗</span>
+        </a>
+      ) : (
+        titre
+      )
+    }
+  </p>
+  {meta && <p class="label mt-1 font-normal">{meta}</p>}
+  {description && <p class="mt-2 max-w-[62ch] font-serif text-sm leading-snug">{description}</p>}
+</li>

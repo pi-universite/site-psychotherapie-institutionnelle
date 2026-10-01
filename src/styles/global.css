@@ -1,0 +1,51 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Design tokens sampled from the Figma mockup (Desktop 8). */
+@theme {
+  --color-fond: #f0e7da;
+  --color-encre: #000000;
+
+  /* Agenda card backgrounds, one per entry type. */
+  --color-rose: #eabeba;
+  --color-jaune: #ece0a1;
+  --color-vert: #a6d5bb;
+  --color-bleu: #bcd8f5;
+  --color-sable: #e2d6c4;
+
+  /* Decorative shapes. */
+  --color-deco-rouge: #f35345;
+  --color-deco-jaune: #ffdd30;
+  --color-deco-bleu: #60acff;
+  --color-deco-vert: #04c65b;
+
+  /* Self-hosted through Fontsource (no CDN at runtime). Gelasio is
+     metric-compatible with Georgia, the serif used in the mockup. */
+  --font-sans: "Inter Variable", system-ui, -apple-system, sans-serif;
+  --font-serif: "Gelasio", Georgia, "Times New Roman", serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  /* Keep anchored sections clear of the top edge when jumping from the nav. */
+  section[id],
+  footer[id] {
+    scroll-margin-top: 1.5rem;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-encre);
+    outline-offset: 3px;
+  }
+}
+
+/* Small uppercase label used across sections (establishment, type, team). */
+@utility label {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}

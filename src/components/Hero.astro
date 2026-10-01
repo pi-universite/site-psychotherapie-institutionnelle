@@ -1,0 +1,61 @@
+---
+import BlobBlue from '../assets/deco/blob-blue.svg';
+import BlobRed from '../assets/deco/blob-red.svg';
+import Asterisk from '../assets/deco/asterisk.svg';
+import Zigzag from '../assets/deco/zigzag.svg';
+import ScribbleYellow from '../assets/deco/scribble-yellow.svg';
+import ScribbleGreen from '../assets/deco/scribble-green.svg';
+import Check from '../assets/deco/check.svg';
+import DiscYellow from '../assets/deco/disc-yellow.svg';
+import RingBlue from '../assets/deco/ring-blue.svg';
+import LeafGreen from '../assets/deco/leaf-green.svg';
+import Line from '../assets/deco/line.svg';
+
+interface Props {
+  titre: string;
+  sousTitre?: string;
+}
+
+const { titre, sousTitre } = Astro.props;
+
+// Decorative shapes (Miró / Tzara reference). Boxes are measured on the Figma
+// frame (Desktop 8): x and width in % of the 1512px frame width, y in % of
+// the top 900px of the frame (header included). The layer keeps that 1512/900
+// ratio, so the composition scales with the viewport.
+const shapes = [
+  { Shape: BlobBlue, left: -6, top: 3, width: 20 },
+  { Shape: Asterisk, left: 27.25, top: 14.4, width: 5.5 },
+  { Shape: BlobRed, left: 57, top: 8.9, width: 12.8 },
+  { Shape: Zigzag, left: 65.8, top: 15.5, width: 9 },
+  { Shape: ScribbleYellow, left: 87.8, top: 21.4, width: 16.3 },
+  { Shape: ScribbleGreen, left: -6, top: 60, width: 22.5 },
+  { Shape: Check, left: 14.2, top: 75.5, width: 11.7 },
+  { Shape: DiscYellow, left: 36.6, top: 65, width: 19.7 },
+  { Shape: RingBlue, left: 49.9, top: 57.8, width: 12.9 },
+  { Shape: LeafGreen, left: 83, top: 55.3, width: 14.6 },
+  { Shape: Line, left: 77.9, top: 67, width: 22.5 },
+];
+---
+<div
+  class="pointer-events-none absolute inset-x-0 top-0 -z-10 aspect-[1512/2600] sm:aspect-[1512/1500] max-lg:top-28 lg:aspect-[1512/900]"
+  aria-hidden="true"
+>
+  {
+    shapes.map(({ Shape, left, top, width }) => (
+      <Shape class="absolute h-auto" style={`left:${left}%;top:${top}%;width:${width}%`} />
+    ))
+  }
+</div>
+
+<section class="relative flex flex-col pt-16 pb-16 sm:min-h-[calc(100vw*1500/1512)] lg:min-h-[calc(100vw*828/1512)] lg:pt-[calc(100vw*178/1512)] xl:min-h-[828px] xl:pt-[178px]">
+  <h1 class="max-w-[1000px] text-4xl leading-[1.1] font-medium tracking-tight sm:text-5xl lg:text-6xl xl:text-[4.75rem]">
+    {titre}
+  </h1>
+  {
+    sousTitre && (
+      <p class="mt-72 max-w-[440px] text-xl leading-tight sm:mt-8 lg:mt-auto lg:mb-[calc(100vw*40/1512)] lg:ml-[59%] md:text-2xl xl:mb-10">
+        {sousTitre}
+      </p>
+    )
+  }
+</section>
