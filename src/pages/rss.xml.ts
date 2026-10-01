@@ -29,7 +29,7 @@ export async function GET(context: APIContext) {
   ];
 
   return rss({
-    title: settings.titre_court,
+    title: settings.nom_site,
     description: settings.meta_description,
     site: context.site!,
     items,

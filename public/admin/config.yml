@@ -141,7 +141,8 @@ collections:
         label: Contacts et site
         file: content/reglages/site.yml
         fields:
-          - { label: Titre court (en-tête), name: titre_court, widget: text }
+          - { label: Titre complet (en-tête du site), name: titre_court, widget: text }
+          - { label: Nom court du site, name: nom_site, widget: string, hint: "Affiché dans l'onglet du navigateur, les résultats Google et les aperçus de partage. 50 caractères maximum." }
           - { label: Description (moteurs de recherche), name: meta_description, widget: text }
           - { label: Adresse, name: adresse, widget: text, required: false }
           - { label: E-mail, name: email, widget: string, required: false }

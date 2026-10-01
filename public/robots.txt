@@ -1,3 +1,5 @@
 # Keep the CMS admin out of search engine indexes.
 User-agent: *
 Disallow: /admin/
+
+Sitemap: https://psychotherapie-institutionnelle.pages.dev/sitemap-index.xml

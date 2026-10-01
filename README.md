@@ -159,6 +159,22 @@ Les formes du titre sont les SVG exportés de la maquette Figma (frame *Desktop 
 `public/deco/`. Leur position, leur taille et leur rotation reprennent celles de Figma
 (`src/components/Hero.astro`). Pour en changer une, réexporter le SVG depuis Figma sous le même nom.
 
+## Référencement et partage
+
+- **Nom du site** : le *nom court* (Réglages → « Nom court du site ») sert de titre d'onglet, de nom
+  dans Google et dans les aperçus de partage ; le *titre complet* reste affiché dans l'en-tête.
+  La page d'accueil porte une donnée structurée `WebSite` (JSON-LD) avec ces deux noms.
+- **Favicon** : `public/favicon.svg`, `favicon.ico` (16/32/48) et `apple-touch-icon.png` (180),
+  composés à partir du disque jaune et de l'anneau bleu du titre.
+- **Image d'aperçu** : `public/og.png` (1200 × 630, format attendu par Facebook, LinkedIn, WhatsApp
+  et X). Image fixe : à régénérer si le titre du site change.
+- **Sitemap** : généré au build (`sitemap-index.xml`) et déclaré dans `public/robots.txt`.
+  Si le domaine change : mettre à jour `site` dans `astro.config.mjs` **et** la ligne `Sitemap:`
+  de `public/robots.txt`.
+- **À faire à la mise en ligne** : inscrire le site dans Google Search Console avec le compte du
+  projet, en vérifiant par fichier HTML déposé dans `public/` (le DNS n'est pas accessible sur
+  `pages.dev`), puis soumettre le sitemap. Demander aux laboratoires partenaires un lien vers le site.
+
 ## Dev local
 
 ```bash

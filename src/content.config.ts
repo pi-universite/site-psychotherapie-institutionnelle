@@ -74,7 +74,10 @@ const partenaires = defineCollection({
 const reglages = defineCollection({
   loader: glob({ pattern: 'site.yml', base: './content/reglages' }),
   schema: z.object({
+    // Full title, shown in the page header.
     titre_court: z.string(),
+    // Short site name: browser tab, Google results, social previews.
+    nom_site: z.string(),
     meta_description: z.string(),
     adresse: z.string().optional(),
     email: z.string().optional(),

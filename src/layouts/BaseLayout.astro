@@ -16,10 +16,24 @@ interface Props {
 const settings = await getSettings();
 const { title, description = settings.meta_description } = Astro.props;
 
-const siteName = settings.titre_court;
+const siteName = settings.nom_site;
 const fullTitle = title ? `${title} — ${siteName}` : siteName;
 // Absolute URLs required by Open Graph, resolved against `site` in astro.config.mjs.
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/og.png', Astro.site);
+// Home page only: WebSite structured data, which Google uses to pick the site
+// name shown in results. "<" is escaped so CMS text can never close the tag.
+const jsonLd =
+  Astro.url.pathname === '/'
+    ? JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: siteName,
+        alternateName: settings.titre_court,
+        url: new URL('/', Astro.site).toString(),
+        inLanguage: 'fr',
+      }).replace(/</g, '\\u003c')
+    : null;
 ---
 <!doctype html>
 <html lang="fr">
@@ -30,7 +44,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <script is:inline>document.documentElement.classList.add('js');</script>
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
+    <!-- Favicon: ICO for Google and older browsers, SVG for modern ones, PNG for iOS home screens. -->
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="canonical" href={canonical} />
     <link rel="alternate" type="application/rss+xml" title={siteName} href="/rss.xml" />
     <title>{fullTitle}</title>
@@ -40,6 +57,15 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content={siteName} />
+    <!-- Social preview: static image built from the hero shapes (public/og.png, 1200x630). -->
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={settings.titre_court} />
+    <meta name="twitter:card" content="summary_large_image" />
+    {jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
   </head>
   <body class="min-h-screen bg-fond font-sans text-encre antialiased">
     <a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:bg-fond focus:p-2">
