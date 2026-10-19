@@ -7,7 +7,8 @@ interface Props {
 
 const { settings } = Astro.props;
 ---
-<footer id="contacts" class="grid gap-gutter border-t border-encre py-section md:grid-cols-4 md:items-center">
+<!-- From md: every block sits on the last baseline of "Contacts" (Figma). -->
+<footer id="contacts" class="grid gap-gutter border-t border-encre py-section md:grid-cols-4 md:items-baseline-last">
   <h2 class="text-title">Contacts</h2>
   {settings.adresse && <p class="label whitespace-pre-line font-medium">{settings.adresse}</p>}
   <p class="label font-medium">
