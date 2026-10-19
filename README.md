@@ -8,7 +8,7 @@ Objectif de conception : **0 € récurrent, édition autonome, aucune maintenan
 Deux pages : l'accueil (titre, À propos, Partenaires, Sites amis, Membres associé·es, Agenda et
 actualités, Contacts en pied de page) et `/ressources/` (un tableau filtrable Documents / Vidéo / Podcast,
 avec recherche). Une page `/mentions-legales/` (éditeur, hébergeur, données de la newsletter) est liée
-depuis le pied de page ; elle est statique, à modifier dans `src/pages/mentions-legales.astro`. Un flux
+depuis le pied de page ; elle se modifie dans l'admin (Réglages → Mentions légales et confidentialité). Un flux
 `/rss.xml` reprend l'agenda et les ressources.
 
 ## Stack
@@ -35,6 +35,7 @@ depuis le pied de page ; elle est statique, à modifier dans `src/pages/mentions
 | Agenda et actualités | `content/agenda/*.md` | Agenda et actualités |
 | Ressources | `content/ressources/*.md` | Ressources |
 | Contacts, newsletter, description | `content/reglages/site.yml` | Réglages |
+| Mentions légales et confidentialité | `content/reglages/mentions-legales.yml` | Réglages → Mentions légales et confidentialité |
 
 Le modèle est défini **dans deux fichiers à garder synchronisés** :
 `public/admin/config.yml` (Sveltia) et `src/content.config.ts` (validation au build).

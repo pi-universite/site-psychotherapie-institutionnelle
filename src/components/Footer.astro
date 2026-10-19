@@ -8,7 +8,7 @@ interface Props {
 const { settings } = Astro.props;
 ---
 <!-- From md: every block sits on the last baseline of "Contacts" (Figma). -->
-<footer id="contacts" class="grid gap-gutter border-t border-encre py-section md:grid-cols-4 md:items-baseline-last">
+<footer id="contacts" class="grid gap-gutter border-t border-encre py-section md:grid-cols-4 md:items-baseline-last md:gap-y-0">
   <h2 class="text-title">Contacts</h2>
   {settings.adresse && <p class="label whitespace-pre-line font-medium">{settings.adresse}</p>}
   <p class="label font-medium">
@@ -27,7 +27,11 @@ const { settings } = Astro.props;
       </p>
     )
   }
-  <p class="label font-normal md:col-span-4">
+  <!-- Desktop: second row, right under "Contacts" (kept out of the baseline
+       row so it doesn't shift the blocks above), indented by the side bearing
+       of the large "C" (~5% of the title size) so both left edges line up.
+       Phones: last. -->
+  <p class="text-note md:col-start-1 md:row-start-2 md:pl-[calc(var(--text-title)*0.05)]">
     <a href="/mentions-legales/" class="underline underline-offset-2">Mentions légales et confidentialité</a>
   </p>
 </footer>

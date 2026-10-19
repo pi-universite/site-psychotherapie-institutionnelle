@@ -223,3 +223,10 @@ collections:
           - { label: Téléphone, name: telephone, widget: string, required: false }
           - { label: Lien du formulaire newsletter, name: newsletter_url, widget: string, required: false, hint: "Lien vers le formulaire d'inscription hébergé (ex. Brevo). Vide = lien masqué." }
           - { label: Texte du lien newsletter, name: newsletter_label, widget: string, default: "Formulaire d'inscription" }
+
+      - name: mentions-legales
+        label: Mentions légales et confidentialité
+        file: content/reglages/mentions-legales.yml
+        fields:
+          - { label: Titre de la page, name: titre, widget: string, default: "Mentions légales et confidentialité" }
+          - { label: Texte, name: texte, widget: markdown, hint: "Éditeur, directeur·rice de la publication, hébergeur, données de la newsletter. Obligatoire : ne supprimez pas ces rubriques." }

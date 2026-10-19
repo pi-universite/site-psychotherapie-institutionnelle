@@ -1,55 +1,23 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getMentionsLegales } from '../lib/content';
+import { renderMarkdown } from '../lib/markdown';
 
 // Legal minimum for a French site (LCEN: publisher, publication director,
-// host) plus the GDPR notice required by the newsletter signup. Static on
-// purpose: it changes rarely, and only on the client's request.
-const contact = 'pi-universite@proton.me';
+// host) plus the GDPR notice required by the newsletter signup. Edited in the
+// CMS (Réglages → Mentions légales et confidentialité).
+const { titre, texte } = await getMentionsLegales();
+const html = await renderMarkdown(texte);
 ---
 <BaseLayout
-  title="Mentions légales et confidentialité"
+  title={titre}
   description="Éditeur, hébergeur et traitement des données personnelles du site Théories de la Psychothérapie Institutionnelle."
 >
   <section class="py-section">
-    <h1 class="mb-section text-title">Mentions légales et confidentialité</h1>
-
-    <div class="max-w-text space-y-section font-serif text-body [&_p+p]:mt-card">
-      <div>
-        <h2 class="mb-gutter font-sans text-subhead">Éditeur</h2>
-        <p>
-          Laboratoire de Psychologie Clinique, de Psychopathologie et de Psychanalyse (LPCPP, UR 3278),
-          Aix-Marseille Université<br />
-          Maison de la Recherche, 29 avenue Robert Schuman, 13621 Aix-en-Provence Cedex 01
-        </p>
-        <p>Directrice de la publication : Victoria Isabel Fernandez</p>
-        <p>Contact : <a href={`mailto:${contact}`} class="underline">{contact}</a></p>
-      </div>
-
-      <div>
-        <h2 class="mb-gutter font-sans text-subhead">Hébergement</h2>
-        <p>
-          Cloudflare, Inc., 101 Townsend Street, San Francisco, CA 94107, États-Unis<br />
-          Téléphone : +1 888 993 5273
-        </p>
-      </div>
-
-      <div>
-        <h2 class="mb-gutter font-sans text-subhead">Données personnelles</h2>
-        <p>Ce site ne dépose aucun cookie et n'utilise aucun outil de mesure d'audience.</p>
-        <p>
-          L'inscription à la newsletter recueille votre adresse e-mail, avec votre consentement, dans le seul but
-          de vous envoyer la newsletter du site. Le responsable du traitement est l'éditeur ci-dessus. Les adresses
-          sont gérées par Brevo (Sendinblue SAS, Paris), qui agit pour son compte, et conservées jusqu'à votre
-          désinscription.
-        </p>
-        <p>
-          Vous pouvez vous désinscrire à tout moment grâce au lien présent dans chaque e-mail. Conformément au
-          règlement général sur la protection des données (RGPD), vous disposez d'un droit d'accès, de
-          rectification et d'effacement de vos données : écrivez à{' '}
-          <a href={`mailto:${contact}`} class="underline">{contact}</a>. Vous pouvez aussi adresser une réclamation
-          à la CNIL (<a href="https://www.cnil.fr" class="underline" target="_blank" rel="noopener noreferrer">cnil.fr</a>).
-        </p>
-      </div>
-    </div>
+    <h1 class="mb-section text-title">{titre}</h1>
+    <div
+      class="max-w-text font-serif text-body [&_a]:underline [&_h2]:mt-section [&_h2]:mb-gutter [&_h2]:font-sans [&_h2]:text-subhead [&_h2:first-child]:mt-0 [&_p+p]:mt-card"
+      set:html={html}
+    />
   </section>
 </BaseLayout>

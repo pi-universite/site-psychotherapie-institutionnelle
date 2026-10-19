@@ -103,6 +103,16 @@ const reglages = defineCollection({
   }),
 });
 
+// Legal notice page (/mentions-legales/), one markdown text.
+const mentionsLegales = defineCollection({
+  loader: glob({ pattern: 'mentions-legales.yml', base: './content/reglages' }),
+  schema: z.object({
+    titre: z.string(),
+    // Markdown, rendered through renderMarkdown() (sanitized).
+    texte: z.string(),
+  }),
+});
+
 const agenda = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './content/agenda' }),
   schema: z.object({
@@ -146,6 +156,7 @@ export const collections = {
   'sites-amis': sitesAmis,
   'membres-associes': membresAssocies,
   reglages,
+  'mentions-legales': mentionsLegales,
   agenda,
   ressources,
 };

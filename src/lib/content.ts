@@ -59,6 +59,12 @@ export async function getSettings() {
   return entry.data;
 }
 
+export async function getMentionsLegales() {
+  const entry = await getEntry('mentions-legales', 'mentions-legales');
+  if (!entry) throw new Error('Missing content/reglages/mentions-legales.yml');
+  return entry.data;
+}
+
 export async function getAccueil(id: 'hero' | 'a-propos') {
   const entry = await getEntry('accueil', id);
   if (!entry) throw new Error(`Missing content/accueil/${id}.yml`);
