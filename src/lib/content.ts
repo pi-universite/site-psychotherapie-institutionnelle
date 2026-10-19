@@ -59,9 +59,15 @@ export async function getSettings() {
   return entry.data;
 }
 
+export async function getPiedDePage() {
+  const entry = await getEntry('pied-de-page', 'pied-de-page');
+  if (!entry) throw new Error('Missing content/pied-de-page.yml');
+  return entry.data;
+}
+
 export async function getMentionsLegales() {
   const entry = await getEntry('mentions-legales', 'mentions-legales');
-  if (!entry) throw new Error('Missing content/reglages/mentions-legales.yml');
+  if (!entry) throw new Error('Missing content/mentions-legales.yml');
   return entry.data;
 }
 

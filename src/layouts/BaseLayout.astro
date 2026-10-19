@@ -1,7 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { getSettings } from '../lib/content';
+import { getPiedDePage, getSettings } from '../lib/content';
 import '../styles/global.css';
 // Fonts are self-hosted through Fontsource (no CDN at runtime).
 import '@fontsource-variable/inter';
@@ -13,7 +13,7 @@ interface Props {
   description?: string;
 }
 
-const settings = await getSettings();
+const [settings, piedDePage] = await Promise.all([getSettings(), getPiedDePage()]);
 const { title, description = settings.meta_description } = Astro.props;
 
 const siteName = settings.nom_site;
@@ -76,7 +76,7 @@ const jsonLd =
       <main id="contenu">
         <slot />
       </main>
-      <Footer settings={settings} />
+      <Footer settings={piedDePage} />
     </div>
     <script is:inline>
       // Side sections (Section.astro): flag a heading wider than the first grid

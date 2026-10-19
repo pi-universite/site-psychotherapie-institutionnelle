@@ -21,7 +21,9 @@ content/                      ← written by Sveltia CMS
 ├── accueil/{hero,a-propos,partenaires,sites-amis,membres-associes}.yml   ← singletons ("files" collections)
 ├── agenda/*.md               ← one file per event (frontmatter only)
 ├── ressources/*.md           ← one file per resource (frontmatter only)
-└── reglages/{site,mentions-legales}.yml   ← contacts, newsletter URL, meta; legal notice (markdown)
+├── pied-de-page.yml          ← footer contacts + newsletter URL
+├── mentions-legales.yml      ← legal notice (markdown)
+└── reglages/site.yml         ← header title, site name, meta description
 public/admin/                 ← Sveltia bundle (committed) + config.yml
 public/deco/*.svg             ← hero shapes exported from Figma (Desktop - 8), placed in Hero.astro
 src/

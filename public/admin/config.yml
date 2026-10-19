@@ -24,7 +24,7 @@ collections:
     icon: home
     files:
       - name: hero
-        label: En-tête (titre du site)
+        label: Titre principal
         file: content/accueil/hero.yml
         fields:
           - { label: Titre, name: titre, widget: text }
@@ -206,27 +206,42 @@ collections:
       - { label: Lien, name: url, widget: string, required: false, hint: "Lien Google Drive, Cairn, Radio France, YouTube… Les PDF se déposent sur le Drive, pas ici." }
       - { label: Publié, name: publie, widget: boolean, default: true }
 
-  # --- Settings ---------------------------------------------------------------
-  - name: reglages
-    label: Réglages
-    icon: settings
+  # --- Footer ---------------------------------------------------------------
+  - name: pied-de-page
+    label: Pied de page
+    icon: call
     files:
-      - name: site
-        label: Contacts et site
-        file: content/reglages/site.yml
+      - name: pied-de-page
+        label: Contacts et newsletter
+        file: content/pied-de-page.yml
         fields:
-          - { label: Titre complet (en-tête du site), name: titre_court, widget: text }
-          - { label: Nom court du site, name: nom_site, widget: string, hint: "Affiché dans l'onglet du navigateur, les résultats Google et les aperçus de partage. 50 caractères maximum." }
-          - { label: Description (moteurs de recherche), name: meta_description, widget: text }
           - { label: Adresse, name: adresse, widget: text, required: false }
           - { label: E-mail, name: email, widget: string, required: false }
           - { label: Téléphone, name: telephone, widget: string, required: false }
-          - { label: Lien du formulaire newsletter, name: newsletter_url, widget: string, required: false, hint: "Lien vers le formulaire d'inscription hébergé (ex. Brevo). Vide = lien masqué." }
+          - { label: Lien du formulaire newsletter, name: newsletter_url, widget: string, required: false, hint: "Lien vers le formulaire d'inscription hébergé (ex. Brevo). Vide = bloc Newsletter masqué." }
           - { label: Texte du lien newsletter, name: newsletter_label, widget: string, default: "Formulaire d'inscription" }
 
+  # --- Legal notice -------------------------------------------------------------
+  - name: mentions-legales
+    label: Mentions légales
+    icon: gavel
+    files:
       - name: mentions-legales
         label: Mentions légales et confidentialité
-        file: content/reglages/mentions-legales.yml
+        file: content/mentions-legales.yml
         fields:
           - { label: Titre de la page, name: titre, widget: string, default: "Mentions légales et confidentialité" }
           - { label: Texte, name: texte, widget: markdown, hint: "Éditeur, directeur·rice de la publication, hébergeur, données de la newsletter. Obligatoire : ne supprimez pas ces rubriques." }
+
+  # --- Site settings (not shown in the page body) -------------------------------
+  - name: reglages
+    label: Réglages du site
+    icon: settings
+    files:
+      - name: site
+        label: Titre et référencement
+        file: content/reglages/site.yml
+        fields:
+          - { label: Titre de la barre de navigation, name: titre_court, widget: text }
+          - { label: Nom court du site, name: nom_site, widget: string, hint: "Affiché dans l'onglet du navigateur, les résultats Google et les aperçus de partage. 50 caractères maximum." }
+          - { label: Description (moteurs de recherche), name: meta_description, widget: text }

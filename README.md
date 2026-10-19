@@ -8,7 +8,7 @@ Objectif de conception : **0 € récurrent, édition autonome, aucune maintenan
 Deux pages : l'accueil (titre, À propos, Partenaires, Sites amis, Membres associé·es, Agenda et
 actualités, Contacts en pied de page) et `/ressources/` (un tableau filtrable Documents / Vidéo / Podcast,
 avec recherche). Une page `/mentions-legales/` (éditeur, hébergeur, données de la newsletter) est liée
-depuis le pied de page ; elle se modifie dans l'admin (Réglages → Mentions légales et confidentialité). Un flux
+depuis le pied de page ; elle se modifie dans l'admin (rubrique Mentions légales). Un flux
 `/rss.xml` reprend l'agenda et les ressources.
 
 ## Stack
@@ -27,15 +27,16 @@ depuis le pied de page ; elle se modifie dans l'admin (Réglages → Mentions l�
 
 | Contenu | Fichier(s) | Dans l'admin |
 |---|---|---|
-| Titre et sous-titre | `content/accueil/hero.yml` | Page d'accueil → En-tête |
+| Titre et sous-titre | `content/accueil/hero.yml` | Page d'accueil → Titre principal |
 | À propos | `content/accueil/a-propos.yml` | Page d'accueil → À propos |
 | Laboratoires et soutiens | `content/accueil/partenaires.yml` | Page d'accueil → Partenaires (ordre par glisser-déposer) |
 | Sites amis | `content/accueil/sites-amis.yml` | Page d'accueil → Sites amis |
 | Membres associé·es | `content/accueil/membres-associes.yml` | Page d'accueil → Membres associé·es |
 | Agenda et actualités | `content/agenda/*.md` | Agenda et actualités |
 | Ressources | `content/ressources/*.md` | Ressources |
-| Contacts, newsletter, description | `content/reglages/site.yml` | Réglages |
-| Mentions légales et confidentialité | `content/reglages/mentions-legales.yml` | Réglages → Mentions légales et confidentialité |
+| Contacts et lien newsletter (pied de page) | `content/pied-de-page.yml` | Pied de page |
+| Mentions légales et confidentialité | `content/mentions-legales.yml` | Mentions légales |
+| Titre de l'en-tête, nom du site, description (référencement) | `content/reglages/site.yml` | Réglages du site |
 
 Le modèle est défini **dans deux fichiers à garder synchronisés** :
 `public/admin/config.yml` (Sveltia) et `src/content.config.ts` (validation au build).
@@ -54,7 +55,7 @@ Le modèle est défini **dans deux fichiers à garder synchronisés** :
 - **Partenaires et membres associé·es** : dans « Laboratoire », un retour à la ligne est conservé (ex. nom
   puis axe de recherche). « Intitulé de l'équipe » est facultatif : vide, les membres s'affichent directement.
 - **Images** (logos, affiches) : JPG ou PNG, de poids raisonnable (< 1 Mo), nommés sans espaces.
-- **Newsletter** : collez dans Réglages le lien du formulaire d'inscription hébergé (Brevo ou autre).
+- **Newsletter** : collez dans Pied de page le lien du formulaire d'inscription hébergé (Brevo ou autre).
   Si le champ est vide, le lien n'apparaît pas.
 - Après un enregistrement, le site est en ligne en 1 à 2 minutes.
 
@@ -173,7 +174,7 @@ Les formes du titre sont les SVG exportés de la maquette Figma (frame *Desktop 
 
 ## Référencement et partage
 
-- **Nom du site** : le *nom court* (Réglages → « Nom court du site ») sert de titre d'onglet, de nom
+- **Nom du site** : le *nom court* (Réglages du site → « Nom court du site ») sert de titre d'onglet, de nom
   dans Google et dans les aperçus de partage ; le *titre complet* reste affiché dans l'en-tête.
   La page d'accueil porte une donnée structurée `WebSite` (JSON-LD) avec ces deux noms.
 - **Favicon** : `public/favicon.svg`, `favicon.ico` (16/32/48) et `apple-touch-icon.png` (180),

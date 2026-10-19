@@ -94,6 +94,13 @@ const reglages = defineCollection({
     // Short site name: browser tab, Google results, social previews.
     nom_site: z.string(),
     meta_description: z.string(),
+  }),
+});
+
+// Footer contacts and newsletter link (CMS: Pied de page).
+const piedDePage = defineCollection({
+  loader: glob({ pattern: 'pied-de-page.yml', base: './content' }),
+  schema: z.object({
     adresse: z.string().optional(),
     email: z.string().optional(),
     telephone: z.string().optional(),
@@ -105,7 +112,7 @@ const reglages = defineCollection({
 
 // Legal notice page (/mentions-legales/), one markdown text.
 const mentionsLegales = defineCollection({
-  loader: glob({ pattern: 'mentions-legales.yml', base: './content/reglages' }),
+  loader: glob({ pattern: 'mentions-legales.yml', base: './content' }),
   schema: z.object({
     titre: z.string(),
     // Markdown, rendered through renderMarkdown() (sanitized).
@@ -156,6 +163,7 @@ export const collections = {
   'sites-amis': sitesAmis,
   'membres-associes': membresAssocies,
   reglages,
+  'pied-de-page': piedDePage,
   'mentions-legales': mentionsLegales,
   agenda,
   ressources,

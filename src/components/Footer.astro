@@ -1,8 +1,8 @@
 ---
-import type { getSettings } from '../lib/content';
+import type { getPiedDePage } from '../lib/content';
 
 interface Props {
-  settings: Awaited<ReturnType<typeof getSettings>>;
+  settings: Awaited<ReturnType<typeof getPiedDePage>>;
 }
 
 const { settings } = Astro.props;
