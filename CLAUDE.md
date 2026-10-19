@@ -6,7 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Two-page static site for the 2025 Marseille (AMU) colloquium on institutional psychotherapy:
 home (hero, À propos, Partenaires, Sites amis, Membres associé·es, Agenda et actualités, footer Contacts)
-and `/ressources/` (one filterable, searchable table).
+and `/ressources/` (one filterable, searchable table), plus a static `/mentions-legales/` page
+(legal notice + GDPR notice for the Brevo newsletter form linked from the footer).
 Astro SSG + Sveltia CMS (self-hosted bundle, GitHub backend), Cloudflare Pages. Editors sign in with
 GitHub through this site's own OAuth Worker (`auth/`, Cloudflare Workers); token sign-in is a fallback.
 Hard constraints: zero recurring cost, zero maintenance after delivery, several non-technical editors.

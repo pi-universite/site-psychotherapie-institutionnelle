@@ -7,7 +7,9 @@ Objectif de conception : **0 € récurrent, édition autonome, aucune maintenan
 
 Deux pages : l'accueil (titre, À propos, Partenaires, Sites amis, Membres associé·es, Agenda et
 actualités, Contacts en pied de page) et `/ressources/` (un tableau filtrable Documents / Vidéo / Podcast,
-avec recherche). Un flux `/rss.xml` reprend l'agenda et les ressources.
+avec recherche). Une page `/mentions-legales/` (éditeur, hébergeur, données de la newsletter) est liée
+depuis le pied de page ; elle est statique, à modifier dans `src/pages/mentions-legales.astro`. Un flux
+`/rss.xml` reprend l'agenda et les ressources.
 
 ## Stack
 
