@@ -28,7 +28,6 @@ const { lab } = Astro.props;
       lab.laboratoire
     )}
   </h3>
-  {lab.logo && <img src={lab.logo} alt="" class="mt-4 h-10 w-auto" loading="lazy" />}
 </div>
 <div class="pt-gutter">
   {lab.membres.length > 0 && (
@@ -46,12 +45,6 @@ const { lab } = Astro.props;
               </a>
             ) : (
               m.nom
-            )}
-            {m.bio && (
-              <details class="group mt-1 mb-2">
-                <summary class="label cursor-pointer font-normal underline underline-offset-2">Présentation</summary>
-                <p class="mt-card font-serif text-small">{m.bio}</p>
-              </details>
             )}
           </li>
         ))}

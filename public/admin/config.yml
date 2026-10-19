@@ -52,7 +52,6 @@ collections:
               - { label: Site de l'établissement, name: etablissement_url, widget: string, required: false }
               - { label: Laboratoire, name: laboratoire, widget: text, hint: "Passez à la ligne pour ajouter une précision sous le nom (ex. axe de recherche)." }
               - { label: Site du laboratoire, name: url, widget: string, required: false }
-              - { label: Logo, name: logo, widget: image, required: false }
               - { label: Intitulé de l'équipe, name: equipe_label, widget: string, required: false, hint: "Ex. Équipe psychanalyse. Vide = pas d'intitulé au-dessus des membres." }
               - label: Membres
                 name: membres
@@ -61,17 +60,6 @@ collections:
                 fields:
                   - { label: Nom, name: nom, widget: string, hint: "NOM Prénom" }
                   - { label: Page personnelle, name: url, widget: string, required: false }
-                  - { label: Présentation, name: bio, widget: text, required: false }
-          - label: Soutiens
-            name: soutiens
-            widget: list
-            required: false
-            hint: "Financeurs et soutiens (ex. Ville de Marseille)."
-            summary: "{{fields.nom}}"
-            fields:
-              - { label: Nom, name: nom, widget: string }
-              - { label: Logo, name: logo, widget: image, required: false }
-              - { label: Lien, name: url, widget: string, required: false }
 
       - name: sites-amis
         label: Sites amis
@@ -104,7 +92,6 @@ collections:
               - { label: Site de l'établissement, name: etablissement_url, widget: string, required: false }
               - { label: Laboratoire, name: laboratoire, widget: text, hint: "Passez à la ligne pour ajouter une précision sous le nom (ex. axe de recherche)." }
               - { label: Site du laboratoire, name: url, widget: string, required: false }
-              - { label: Logo, name: logo, widget: image, required: false }
               - { label: Intitulé de l'équipe, name: equipe_label, widget: string, required: false, hint: "Ex. Équipe psychanalyse. Vide = pas d'intitulé au-dessus des membres." }
               - label: Membres
                 name: membres
@@ -113,7 +100,6 @@ collections:
                 fields:
                   - { label: Nom, name: nom, widget: string, hint: "NOM Prénom" }
                   - { label: Page personnelle, name: url, widget: string, required: false }
-                  - { label: Présentation, name: bio, widget: text, required: false }
 
   # --- Agenda -----------------------------------------------------------------
   - name: agenda
@@ -143,7 +129,6 @@ collections:
       - { label: Description, name: description, widget: text, required: false, hint: "Quelques lignes" }
       - { label: Lien, name: lien, widget: string, required: false, hint: "Inscription, appel, programme…" }
       - { label: Texte du lien, name: lien_label, widget: string, required: false, default: "Site web" }
-      - { label: Affiche, name: image, widget: image, required: false }
       - { label: Publié, name: publie, widget: boolean, default: true }
 
   # --- Resources --------------------------------------------------------------

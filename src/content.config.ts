@@ -33,7 +33,6 @@ const accueil = defineCollection({
 const membre = z.object({
   nom: z.string(),
   url: z.string().optional(),
-  bio: z.string().optional(),
 });
 
 // A laboratory card, shared by partners and associate members.
@@ -43,7 +42,6 @@ const laboratoire = z.object({
   // May span several lines (e.g. name, then research axis); line breaks are kept.
   laboratoire: z.string(),
   url: z.string().optional(),
-  logo: z.string().optional(),
   equipe_label: z.string().optional(),
   membres: z.array(membre).default([]),
 });
@@ -54,16 +52,6 @@ const partenaires = defineCollection({
     titre: z.string(),
     // List order is the display order (drag & drop in the CMS).
     laboratoires: z.array(laboratoire).default([]),
-    // Funders and supporters (e.g. the City of Marseille), logos only.
-    soutiens: z
-      .array(
-        z.object({
-          nom: z.string(),
-          logo: z.string().optional(),
-          url: z.string().optional(),
-        }),
-      )
-      .default([]),
   }),
 });
 
@@ -134,8 +122,6 @@ const agenda = defineCollection({
     description: z.string().optional(),
     lien: z.string().optional(),
     lien_label: z.string().optional(),
-    // Optional poster (used by the alternative "list" layout).
-    image: z.string().optional(),
     publie: z.boolean().default(true),
   }),
 });

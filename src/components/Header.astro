@@ -19,10 +19,9 @@ const links = [
      iOS Safari: the background also extends above the bar, so the page never
      shows through when the sticky position lags a frame behind momentum
      scrolling, and the bar gets its own compositing layer (transform-gpu). The
-     blur itself still jittered there, so it is turned off on iOS/iPadOS
-     (@supports -webkit-touch-callout, a WebKit-on-iOS-only property). -->
+     jitter itself came from a clipping ancestor (see BaseLayout), not the blur. -->
 <header
-  class="sticky top-0 z-20 flex transform-gpu flex-wrap items-center justify-between gap-x-gutter border-b border-encre py-gutter before:absolute before:-top-section before:bottom-0 before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2 before:bg-fond/85 before:backdrop-blur-[5px] supports-[-webkit-touch-callout:none]:before:backdrop-blur-none lg:flex-nowrap"
+  class="sticky top-0 z-20 flex transform-gpu flex-wrap items-center justify-between gap-x-gutter border-b border-encre py-gutter before:absolute before:-top-section before:bottom-0 before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2 before:bg-fond/85 before:backdrop-blur-[5px] lg:flex-nowrap"
 >
   <a href="/" class="max-w-md min-w-0 text-small font-bold max-lg:flex-1 lg:max-w-sm lg:text-nav" aria-current={onHome ? 'page' : undefined}>
     {title}

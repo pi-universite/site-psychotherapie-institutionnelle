@@ -7,7 +7,7 @@ interface Props {
   data: Awaited<ReturnType<typeof getPartenaires>>;
 }
 
-const { titre, laboratoires, soutiens } = Astro.props.data;
+const { titre, laboratoires } = Astro.props.data;
 
 // Figma: a vertical rule in the middle of the gap before every column but the
 // first, stopping above the row's bottom rules; a bottom rule (column wide, so
@@ -40,18 +40,4 @@ function cellClasses(i: number) {
       ))
     }
   </ul>
-
-  {
-    soutiens.length > 0 && (
-      <div class="mt-12">
-        <p class="label">Avec le soutien de</p>
-        <ul class="mt-4 flex flex-wrap items-center gap-8">
-          {soutiens.map((s) => {
-            const content = s.logo ? <img src={s.logo} alt={s.nom} class="h-12 w-auto" loading="lazy" /> : s.nom;
-            return <li>{s.url ? <a href={s.url} target="_blank" rel="noopener noreferrer">{content}</a> : content}</li>;
-          })}
-        </ul>
-      </div>
-    )
-  }
 </Section>

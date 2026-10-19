@@ -29,7 +29,7 @@ depuis le pied de page ; elle se modifie dans l'admin (rubrique Mentions légale
 |---|---|---|
 | Titre et sous-titre | `content/accueil/hero.yml` | Page d'accueil → Titre principal |
 | À propos | `content/accueil/a-propos.yml` | Page d'accueil → À propos |
-| Laboratoires et soutiens | `content/accueil/partenaires.yml` | Page d'accueil → Partenaires (ordre par glisser-déposer) |
+| Laboratoires partenaires | `content/accueil/partenaires.yml` | Page d'accueil → Partenaires (ordre par glisser-déposer) |
 | Sites amis | `content/accueil/sites-amis.yml` | Page d'accueil → Sites amis |
 | Membres associé·es | `content/accueil/membres-associes.yml` | Page d'accueil → Membres associé·es |
 | Agenda et actualités | `content/agenda/*.md` | Agenda et actualités |
@@ -54,7 +54,6 @@ Le modèle est défini **dans deux fichiers à garder synchronisés** :
   Le tableau est trié par titre ; la recherche porte sur toutes les colonnes.
 - **Partenaires et membres associé·es** : dans « Laboratoire », un retour à la ligne est conservé (ex. nom
   puis axe de recherche). « Intitulé de l'équipe » est facultatif : vide, les membres s'affichent directement.
-- **Images** (logos, affiches) : JPG ou PNG, de poids raisonnable (< 1 Mo), nommés sans espaces.
 - **Newsletter** : collez dans Pied de page le lien du formulaire d'inscription hébergé (Brevo ou autre).
   Si le champ est vide, le lien n'apparaît pas.
 - Après un enregistrement, le site est en ligne en 1 à 2 minutes.
