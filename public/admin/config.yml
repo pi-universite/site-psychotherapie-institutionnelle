@@ -174,7 +174,35 @@ collections:
         name: format
         widget: select
         required: false
-        options: [PDF, Livre, Article, Vidéo, Film, Audio, Page web]
+        hint: "Format affiché dans la colonne Type du tableau."
+        # Display only (free string in content.config.ts): extending this list
+        # needs no code change.
+        options:
+          # Texts
+          - Document
+          - PDF
+          - Article
+          - Livre
+          - Chapitre d'ouvrage
+          - Revue
+          - Actes de colloque
+          - Thèse / mémoire
+          - Rapport
+          - Archive
+          # Audio and video
+          - Vidéo
+          - Film
+          - Documentaire
+          - Conférence
+          - Entretien
+          - Podcast
+          - Émission de radio
+          - Audio
+          # Other
+          - Présentation
+          - Image
+          - Page web
+          - Autre
       - { label: Lien, name: url, widget: string, required: false, hint: "Lien Google Drive, Cairn, Radio France, YouTube… Les PDF se déposent sur le Drive, pas ici." }
       - { label: Publié, name: publie, widget: boolean, default: true }
 
