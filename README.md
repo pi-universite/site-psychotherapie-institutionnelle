@@ -41,15 +41,15 @@ Le modèle est défini **dans deux fichiers à garder synchronisés** :
 
 - **Agenda** : la date est celle de l'événement, ou la **date limite** pour un appel à projets.
   Le classement est automatique : les événements à venir passent d'abord, les événements passés restent
-  visibles mais estompés. Il n'y a rien à ranger ni à supprimer. Pour retirer un événement, décochez **Publié**.
+  visibles ensuite, sans distinction visuelle. Il n'y a rien à ranger ni à supprimer. Pour retirer un événement, décochez **Publié**.
 - **Ressources** : **aucun PDF dans le site.** Les textes sont déposés dans le Google Drive partagé
   (dossier TEXTES), puis on crée une fiche ressource avec le lien du fichier. Pour un texte payant, mettez
   le lien Cairn. Les podcasts pointent vers Radio France, les films vers YouTube ou ne portent qu'un titre.
   Chaque fiche a une catégorie (Documents, Vidéo, Podcast) qui alimente les filtres, et des colonnes
   facultatives : auteur·rice(s), éditeur, année, type (PDF, Livre, Vidéo…). Une colonne vide affiche « / ».
   Le tableau est trié par titre ; la recherche porte sur toutes les colonnes.
-- **Partenaires et membres associé·es** : « Axe ou précision » s'affiche sur une deuxième ligne sous le nom
-  du laboratoire. « Intitulé de l'équipe » est facultatif : vide, les membres s'affichent directement.
+- **Partenaires et membres associé·es** : dans « Laboratoire », un retour à la ligne est conservé (ex. nom
+  puis axe de recherche). « Intitulé de l'équipe » est facultatif : vide, les membres s'affichent directement.
 - **Images** (logos, affiches) : JPG ou PNG, de poids raisonnable (< 1 Mo), nommés sans espaces.
 - **Newsletter** : collez dans Réglages le lien du formulaire d'inscription hébergé (Brevo ou autre).
   Si le champ est vide, le lien n'apparaît pas.

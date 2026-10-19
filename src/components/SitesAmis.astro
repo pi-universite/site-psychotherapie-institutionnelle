@@ -8,7 +8,7 @@ interface Props {
 
 const { titre, note, sites } = Astro.props.data;
 ---
-<Section id="sites-amis" titre={titre} note={note} layout="side">
+<Section id="sites-amis" titre={titre} note={note} layout="side" baseline>
   <ul class="max-w-text list-outside list-disc space-y-gutter pl-[1.5em] text-subhead">
     {
       sites.map((s) => (

@@ -4,26 +4,51 @@ interface Props {
   titre: string;
   // "side": heading in a left column (À propos); "top": heading above.
   layout?: 'side' | 'top';
-  // Short call to action under the heading (side layout).
+  // Short call to action: under the heading in the side column, at the end
+  // of the section (full width, smaller) on phones.
   note?: string;
+  // Side layout: align the content's first line on the title's baseline.
+  baseline?: boolean;
 }
 
-const { id, titre, layout = 'top', note } = Astro.props;
+const { id, titre, layout = 'top', note, baseline = false } = Astro.props;
+const side = layout === 'side';
 ---
+<!-- Side layout, from md: a 3-column grid, heading in column 1 (note under it),
+     content in columns 2-3. The heading never wraps: when it is wider than its
+     column, the script in BaseLayout sets data-long and the heading takes the
+     whole first row, with the note and content side by side below (Figma). -->
 <section
   id={id}
   aria-labelledby={`${id}-titre`}
+  data-side={side ? '' : undefined}
   class:list={[
     'border-t border-encre py-section',
-    // Side layout: title in the first column of the 3-column grid, content in the other two.
-    layout === 'side' && 'md:grid md:grid-cols-3 md:gap-x-gutter',
+    side && 'group/side md:grid md:grid-cols-3 md:grid-rows-[auto_1fr] md:gap-x-gutter',
+    side && baseline && 'md:items-baseline',
   ]}
 >
-  <div class="mb-section">
-    <h2 id={`${id}-titre`} class="text-title">{titre}</h2>
-    {note && <p class="mt-gutter max-w-56 text-small font-bold">{note}</p>}
-  </div>
-  <div class:list={[layout === 'side' && 'md:col-span-2']}>
+  <h2
+    id={`${id}-titre`}
+    class:list={[
+      'mb-section text-title',
+      side &&
+        'md:col-start-1 md:row-start-1 md:mb-gutter md:[.js_&]:whitespace-nowrap md:group-data-long/side:col-span-3 md:group-data-long/side:mb-section',
+    ]}
+  >
+    <span data-titre>{titre}</span>
+  </h2>
+  <div
+    class:list={[
+      side &&
+        'md:col-span-2 md:col-start-2 md:row-span-2 md:row-start-1 md:group-data-long/side:row-span-1 md:group-data-long/side:row-start-2',
+    ]}
+  >
     <slot />
   </div>
+  {
+    note && (
+      <p class="mt-section text-note font-bold md:col-start-1 md:row-start-2 md:mt-0 md:max-w-56 md:text-small">{note}</p>
+    )
+  }
 </section>

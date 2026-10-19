@@ -39,13 +39,14 @@
   /* Main text column (À propos). */
   --container-text: 50rem;
 
-  /* Type scale from Figma (80 / 60 / 40 / 30 / 25 / 20 / 19 / 15).
+  /* Type scale from Figma (80 / 60 / 40 / 30 / 25 / 20 / 19 / 15). On phones
+     display and title bottom out at 50 and 38px.
      Inter is tightened on large sizes: -5% from 60px, -4% from 25 to 40px. */
-  --text-display: clamp(2.5rem, 1.1rem + 4.5vw, 5rem);
+  --text-display: clamp(3.125rem, 2.47rem + 2.67vw, 5rem);
   --text-display--line-height: 1.125;
   --text-display--letter-spacing: -0.05em;
-  --text-title: clamp(2rem, 1.4rem + 2.5vw, 3.75rem);
-  --text-title--line-height: 1.2;
+  --text-title: clamp(2.375rem, 1.9rem + 1.96vw, 3.75rem);
+  --text-title--line-height: 1;
   --text-title--letter-spacing: -0.05em;
   --text-headline: 2.5rem;
   --text-headline--line-height: 1.125;
@@ -58,20 +59,26 @@
   --text-card--letter-spacing: -0.04em;
   --text-nav: clamp(1rem, 0.85rem + 0.4vw, 1.25rem);
   --text-nav--line-height: 1.2;
+  /* Resource titles on phones. */
+  --text-lead: 1.25rem;
+  --text-lead--line-height: 1.25;
   --text-body: clamp(1rem, 0.9rem + 0.3vw, 1.1875rem);
   --text-body--line-height: 1.27;
   --text-small: 0.9375rem;
   --text-small--line-height: 1.25;
+  /* Section notes on phones. */
+  --text-note: 0.75rem;
+  --text-note--line-height: 1.33;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
   }
-  /* Keep anchored sections clear of the top edge when jumping from the nav. */
+  /* Keep anchored sections clear of the sticky header when jumping from the nav. */
   section[id],
   footer[id] {
-    scroll-margin-top: 1.5rem;
+    scroll-margin-top: 7rem;
   }
   :focus-visible {
     outline: 2px solid var(--color-encre);

@@ -10,8 +10,9 @@ laboratoires:
       - nom: ROBERT Nicolas
         url: https://lpcpp.fr/robert-nicolas/
   - etablissement: CNRS-ENS-PSL
-    laboratoire: "Les Archives Husserl (UMR 8547) « Pays germaniques : histoire, culture, philosophie »"
-    axe: Axe 4 – Psychanalyse, psychiatrie phénoménologique, psychopathologie
+    laboratoire: |-
+      Les Archives Husserl (UMR 8547) « Pays germaniques : histoire, culture, philosophie »
+      Axe 4 – Psychanalyse, psychiatrie phénoménologique, psychopathologie
     url: https://philosophie.ens.fr/Les-Archives-Husserl-51.html
     equipe_label: Clinique
     membres:
@@ -23,7 +24,6 @@ laboratoires:
     membres:
       - nom: GOZE Tudi
         url: https://erraphis.univ-tlse2.fr/accueil-erraphis/equipe/goze-tudi
-        bio: Tudi GOZE est psychiatre et docteur en philosophie, il est Maître de Conférences des Universités et Praticien Hospitalier à l'Université de Toulouse (ERRAPHIS EA 3051) et exerce au Centre Hospitalier Lavaur. Spécialiste de phénoménologie contemporaine, de psychopathologie des psychoses et de psychothérapie institutionnelle. Il est l'auteur de Phénoménologie et Schizophrénie (Hermann, 2024) et Expérience de la rencontre schizophrénique (Hermann, 2020).
   - etablissement: Université Paris Cité
     laboratoire: Centre de recherches psychanalyse, médecine et société (CRPMS)
     url: https://u-paris.fr/ihss/accueil/laboratoires/crpms/

@@ -9,9 +9,17 @@ const { lab } = Astro.props;
 ---
 <!-- Three blocks (establishment, laboratory, team): the parent decides how they
      line up, e.g. a subgrid so they align across a row of partners. -->
-<p class="label">{lab.etablissement}</p>
+<p class="label">
+  {lab.etablissement_url ? (
+    <a href={lab.etablissement_url} class="hover:underline" rel="noopener">
+      {lab.etablissement}
+    </a>
+  ) : (
+    lab.etablissement
+  )}
+</p>
 <div>
-  <h3 class="mt-gutter text-subhead">
+  <h3 class="mt-gutter text-subhead whitespace-pre-line">
     {lab.url ? (
       <a href={lab.url} class="hover:underline" rel="noopener">
         {lab.laboratoire}
@@ -19,14 +27,16 @@ const { lab } = Astro.props;
     ) : (
       lab.laboratoire
     )}
-    {lab.axe && <span class="block">{lab.axe}</span>}
   </h3>
   {lab.logo && <img src={lab.logo} alt="" class="mt-4 h-10 w-auto" loading="lazy" />}
 </div>
 <div class="pt-gutter">
   {lab.membres.length > 0 && (
     <>
-      {lab.equipe_label && <p class="label mb-gutter font-normal">{lab.equipe_label} :</p>}
+      {/* The line is kept (empty) without a team label, so members line up across cards. */}
+      <p class="label mb-gutter font-normal" aria-hidden={lab.equipe_label ? undefined : 'true'}>
+        {lab.equipe_label ? `${lab.equipe_label} :` : ' '}
+      </p>
       <ul class="font-serif text-body">
         {lab.membres.map((m) => (
           <li>

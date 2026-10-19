@@ -4,10 +4,9 @@ import { formatDateRange, isoDay } from '../lib/dates';
 
 interface Props {
   event: Evenement;
-  past: boolean;
 }
 
-const { event, past } = Astro.props;
+const { event } = Astro.props;
 const e = event.data;
 const meta = AGENDA_TYPE_META[e.type];
 const dates = formatDateRange(e.date_debut, e.date_fin);
@@ -18,7 +17,6 @@ const isCall = e.type === 'appel';
   class:list={['agenda-card flex min-h-104 flex-col p-card', meta.bg]}
   data-debut={isoDay(e.date_debut)}
   data-fin={lastDay(event)}
-  data-past={past ? '' : undefined}
 >
   {
     isCall ? (

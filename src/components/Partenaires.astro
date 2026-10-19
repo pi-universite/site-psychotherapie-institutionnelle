@@ -9,19 +9,23 @@ interface Props {
 
 const { titre, laboratoires, soutiens } = Astro.props.data;
 
-// Figma: a vertical rule in the middle of the 20px gap before every column but
-// the first, and a bottom rule under every row but the last. Column count
-// changes with the breakpoint (1 / 2 at sm / 3 at lg), so classes are computed
-// per item for each grid.
+// Figma: a vertical rule in the middle of the gap before every column but the
+// first, stopping above the row's bottom rules; a bottom rule (column wide, so
+// rules never meet) under every row but the last. Column count changes with
+// the breakpoint (1 / 2 at sm / 3 at lg), so classes are computed per item.
+// When the last row is incomplete, the last card also gets a rule on its right,
+// in front of the empty cells.
 const n = laboratoires.length;
 const lastRowStart = (cols: number) => Math.floor((n - 1) / cols) * cols;
 function cellClasses(i: number) {
   return [
     i === n - 1 ? 'border-b-0' : 'border-b',
-    i % 2 ? 'sm:-ml-card sm:border-l sm:pl-card' : 'sm:ml-0 sm:border-l-0 sm:pl-0',
+    i % 2 ? 'sm:before:block' : 'sm:before:hidden',
     i >= lastRowStart(2) ? 'sm:border-b-0' : 'sm:border-b',
-    i % 3 ? 'lg:-ml-card lg:border-l lg:pl-card' : 'lg:ml-0 lg:border-l-0 lg:pl-0',
+    i % 3 ? 'lg:before:block' : 'lg:before:hidden',
     i >= lastRowStart(3) ? 'lg:border-b-0' : 'lg:border-b',
+    i === n - 1 && i % 2 !== 1 ? 'sm:after:block' : 'sm:after:hidden',
+    i === n - 1 && i % 3 !== 2 ? 'lg:after:block' : 'lg:after:hidden',
   ];
 }
 ---
@@ -30,7 +34,7 @@ function cellClasses(i: number) {
     {
       laboratoires.map((lab, i) => (
         // Subgrid: establishment, laboratory and team blocks line up across a row.
-        <li class:list={['row-span-3 grid grid-rows-subgrid gap-y-0 border-encre pb-gutter', cellClasses(i)]}>
+        <li class:list={['relative row-span-3 grid grid-rows-subgrid gap-y-0 border-encre pb-gutter before:absolute before:top-0 before:bottom-gutter before:-left-card before:hidden before:w-px before:bg-encre after:absolute after:top-0 after:bottom-gutter after:-right-card after:hidden after:w-px after:bg-encre', cellClasses(i)]}>
           <Laboratoire lab={lab} />
         </li>
       ))

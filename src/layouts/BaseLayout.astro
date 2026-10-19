@@ -78,5 +78,24 @@ const jsonLd =
       </main>
       <Footer settings={settings} />
     </div>
+    <script is:inline>
+      // Side sections (Section.astro): flag a heading wider than the first grid
+      // column, so it takes the whole first row. ResizeObserver also catches
+      // the web font loading and window resizes; it reports before paint.
+      (() => {
+        const check = (section) => {
+          const gap = parseFloat(getComputedStyle(section).columnGap) || 0;
+          const column = (section.clientWidth - 2 * gap) / 3;
+          section.toggleAttribute('data-long', section.querySelector('[data-titre]').offsetWidth > column);
+        };
+        const observer = new ResizeObserver((entries) => {
+          entries.forEach((e) => check(e.target.closest('[data-side]')));
+        });
+        document.querySelectorAll('[data-side]').forEach((section) => {
+          observer.observe(section);
+          observer.observe(section.querySelector('[data-titre]'));
+        });
+      })();
+    </script>
   </body>
 </html>

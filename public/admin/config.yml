@@ -48,9 +48,9 @@ collections:
             hint: "L'ordre de la liste est l'ordre d'affichage (glisser-déposer)."
             summary: "{{fields.laboratoire}}"
             fields:
-              - { label: Établissement, name: etablissement, widget: string, hint: "Ex. Aix-Marseille-Université" }
-              - { label: Laboratoire, name: laboratoire, widget: string }
-              - { label: Axe ou précision, name: axe, widget: string, required: false, hint: "Deuxième ligne sous le nom du laboratoire (axe de recherche, département…)" }
+              - { label: Établissement, name: etablissement, widget: string, hint: "Ex. Aix-Marseille Université" }
+              - { label: Site de l'établissement, name: etablissement_url, widget: string, required: false }
+              - { label: Laboratoire, name: laboratoire, widget: text, hint: "Passez à la ligne pour ajouter une précision sous le nom (ex. axe de recherche)." }
               - { label: Site du laboratoire, name: url, widget: string, required: false }
               - { label: Logo, name: logo, widget: image, required: false }
               - { label: Intitulé de l'équipe, name: equipe_label, widget: string, required: false, hint: "Ex. Équipe psychanalyse. Vide = pas d'intitulé au-dessus des membres." }
@@ -92,7 +92,7 @@ collections:
         label: Membres associé·es
         file: content/accueil/membres-associes.yml
         fields:
-          - { label: Titre de la section, name: titre, widget: string, default: "Membres associé·es" }
+          - { label: Titre de la section, name: titre, widget: string, default: "Membres Associé·es" }
           - { label: Note sous le titre, name: note, widget: text, required: false }
           - label: Laboratoires
             name: laboratoires
@@ -100,9 +100,9 @@ collections:
             hint: "L'ordre de la liste est l'ordre d'affichage (glisser-déposer)."
             summary: "{{fields.laboratoire}}"
             fields:
-              - { label: Établissement, name: etablissement, widget: string, hint: "Ex. Aix-Marseille-Université" }
-              - { label: Laboratoire, name: laboratoire, widget: string }
-              - { label: Axe ou précision, name: axe, widget: string, required: false, hint: "Deuxième ligne sous le nom du laboratoire (axe de recherche, département…)" }
+              - { label: Établissement, name: etablissement, widget: string, hint: "Ex. Aix-Marseille Université" }
+              - { label: Site de l'établissement, name: etablissement_url, widget: string, required: false }
+              - { label: Laboratoire, name: laboratoire, widget: text, hint: "Passez à la ligne pour ajouter une précision sous le nom (ex. axe de recherche)." }
               - { label: Site du laboratoire, name: url, widget: string, required: false }
               - { label: Logo, name: logo, widget: image, required: false }
               - { label: Intitulé de l'équipe, name: equipe_label, widget: string, required: false, hint: "Ex. Équipe psychanalyse. Vide = pas d'intitulé au-dessus des membres." }

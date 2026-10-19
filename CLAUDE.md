@@ -51,7 +51,7 @@ auth/                         ← OAuth Worker (zero deps, deployed by hand with
   (home) and "Desktop - 9" (`/ressources/`). Tokens in `src/styles/global.css` `@theme`.
 - **Spacing and type come from tokens, never one-off px values**: `page` (side margin),
   `section` (vertical rhythm, title → content), `gutter` (grid gaps, blocks in a card),
-  `card` (card padding = gutter/2); type scale `text-display/title/headline/subhead/card/nav/body/small`.
+  `card` (card padding = gutter/2); type scale `text-display/title/headline/subhead/card/nav/lead/body/small/note`.
   Layout grid: 3 columns with `gutter` (partners; "side" sections = title 1 col + content 2 cols),
   4 columns for agenda and footer. Only exception: the hero composition (`Hero.astro`), tied to the artwork.
 - Code comments and identifiers in English; UI copy in French.

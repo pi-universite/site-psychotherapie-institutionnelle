@@ -1,11 +1,9 @@
 ---
 import Section from './Section.astro';
 import AgendaCard from './AgendaCard.astro';
-import { getAgenda, lastDay } from '../lib/content';
-import { isoDay } from '../lib/dates';
+import { getAgenda } from '../lib/content';
 
 const events = await getAgenda();
-const today = isoDay(new Date());
 ---
 <Section id="agenda" titre="Agenda et actualités">
   {
@@ -14,19 +12,12 @@ const today = isoDay(new Date());
     ) : (
       <ul id="agenda-liste" class="grid gap-gutter sm:grid-cols-2 lg:grid-cols-4">
         {events.map((event) => (
-          <AgendaCard event={event} past={lastDay(event) < today} />
+          <AgendaCard event={event} />
         ))}
       </ul>
     )
   }
 </Section>
-
-<style>
-  /* Past events stay listed (archive) but fade out. */
-  :global(.agenda-card[data-past]) {
-    opacity: 0.55;
-  }
-</style>
 
 <script is:inline>
   // The order above was computed at build time. Re-apply it with today's date
@@ -41,8 +32,6 @@ const today = isoDay(new Date());
     const past = cards.filter((c) => c.dataset.fin < today);
     upcoming.sort((a, b) => a.dataset.debut.localeCompare(b.dataset.debut));
     past.sort((a, b) => b.dataset.debut.localeCompare(a.dataset.debut));
-    upcoming.forEach((c) => c.removeAttribute('data-past'));
-    past.forEach((c) => c.setAttribute('data-past', ''));
     list.append(...upcoming, ...past);
   })();
 </script>

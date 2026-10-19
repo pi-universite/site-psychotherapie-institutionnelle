@@ -39,9 +39,9 @@ const membre = z.object({
 // A laboratory card, shared by partners and associate members.
 const laboratoire = z.object({
   etablissement: z.string(),
+  etablissement_url: z.string().optional(),
+  // May span several lines (e.g. name, then research axis); line breaks are kept.
   laboratoire: z.string(),
-  // Second line under the laboratory name (research axis, department…).
-  axe: z.string().optional(),
   url: z.string().optional(),
   logo: z.string().optional(),
   equipe_label: z.string().optional(),
