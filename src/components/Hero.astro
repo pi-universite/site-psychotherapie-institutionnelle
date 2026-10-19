@@ -40,7 +40,7 @@ const img = (s: (typeof shapes)[number]) =>
 ---
 <!-- From sm up: one layer with the Figma composition. -->
 <div
-  class="pointer-events-none absolute inset-x-0 top-18 -z-10 hidden aspect-[1512/1500] sm:block lg:top-0 lg:aspect-[1512/900]"
+  class="pointer-events-none absolute inset-x-0 top-18 -z-10 hidden aspect-[1512/1500] overflow-x-clip sm:block lg:top-0 lg:aspect-[1512/900]"
   aria-hidden="true"
 >
   {
@@ -54,7 +54,7 @@ const img = (s: (typeof shapes)[number]) =>
 
 <!-- Phones: top band behind the title. -->
 <div
-  class="pointer-events-none absolute inset-x-0 top-20 -z-10 aspect-[1512/405] sm:hidden"
+  class="pointer-events-none absolute inset-x-0 top-20 -z-10 aspect-[1512/405] overflow-x-clip sm:hidden"
   aria-hidden="true"
 >
   {
@@ -78,7 +78,7 @@ const img = (s: (typeof shapes)[number]) =>
     )
   }
   <!-- Phones: bottom band, in the flow after the subtitle (bleeds to the edges). -->
-  <div class="pointer-events-none relative -z-10 -mx-page aspect-[1512/495] sm:hidden" aria-hidden="true">
+  <div class="pointer-events-none relative -z-10 -mx-page aspect-[1512/495] overflow-x-clip sm:hidden" aria-hidden="true">
     {
       bas.map((s) => (
         <div class="absolute flex items-center justify-center" style={box(s, ((s.top - SPLIT) / (100 - SPLIT)) * 100)}>

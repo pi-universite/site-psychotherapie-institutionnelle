@@ -67,11 +67,13 @@ const jsonLd =
     <meta name="twitter:card" content="summary_large_image" />
     {jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
   </head>
-  <body class="min-h-screen bg-fond font-sans text-encre antialiased">
+  <!-- overflow-x-clip lives on body (applied to the viewport), not on the page
+       container: a clipping ancestor makes the sticky header jitter on iOS Safari. -->
+  <body class="min-h-screen overflow-x-clip bg-fond font-sans text-encre antialiased">
     <a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:bg-fond focus:p-2">
       Aller au contenu
     </a>
-    <div class="relative isolate mx-auto max-w-[1512px] overflow-x-clip px-page">
+    <div class="relative isolate mx-auto max-w-[1512px] px-page">
       <Header title={settings.titre_court} />
       <main id="contenu">
         <slot />
