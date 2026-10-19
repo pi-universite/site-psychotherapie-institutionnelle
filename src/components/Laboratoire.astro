@@ -1,0 +1,51 @@
+---
+import type { getPartenaires } from '../lib/content';
+
+interface Props {
+  lab: Awaited<ReturnType<typeof getPartenaires>>['laboratoires'][number];
+}
+
+const { lab } = Astro.props;
+---
+<!-- Three blocks (establishment, laboratory, team): the parent decides how they
+     line up, e.g. a subgrid so they align across a row of partners. -->
+<p class="label">{lab.etablissement}</p>
+<div>
+  <h3 class="mt-gutter text-subhead">
+    {lab.url ? (
+      <a href={lab.url} class="hover:underline" rel="noopener">
+        {lab.laboratoire}
+      </a>
+    ) : (
+      lab.laboratoire
+    )}
+    {lab.axe && <span class="block">{lab.axe}</span>}
+  </h3>
+  {lab.logo && <img src={lab.logo} alt="" class="mt-4 h-10 w-auto" loading="lazy" />}
+</div>
+<div class="pt-gutter">
+  {lab.membres.length > 0 && (
+    <>
+      {lab.equipe_label && <p class="label mb-gutter font-normal">{lab.equipe_label} :</p>}
+      <ul class="font-serif text-body">
+        {lab.membres.map((m) => (
+          <li>
+            {m.url ? (
+              <a href={m.url} class="hover:underline" rel="noopener">
+                {m.nom}
+              </a>
+            ) : (
+              m.nom
+            )}
+            {m.bio && (
+              <details class="group mt-1 mb-2">
+                <summary class="label cursor-pointer font-normal underline underline-offset-2">Présentation</summary>
+                <p class="mt-card font-serif text-small">{m.bio}</p>
+              </details>
+            )}
+          </li>
+        ))}
+      </ul>
+    </>
+  )}
+</div>

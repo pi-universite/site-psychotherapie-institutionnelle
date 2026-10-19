@@ -22,8 +22,9 @@ export async function GET(context: APIContext) {
     })),
     ...ressources.map((r) => ({
       title: r.data.titre,
-      description: r.data.description,
-      link: r.data.url || `/ressources/#${RESSOURCE_CATEGORY_META[r.data.categorie].anchor}`,
+      description: [r.data.auteur, r.data.editeur, r.data.annee].filter(Boolean).join(' · ') || undefined,
+      // The hash selects the matching filter on /ressources/.
+      link: r.data.url || `/ressources/#${r.data.categorie}`,
       categories: ['Ressources', RESSOURCE_CATEGORY_META[r.data.categorie].label],
     })),
   ];

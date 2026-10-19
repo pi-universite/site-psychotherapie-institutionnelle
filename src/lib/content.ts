@@ -10,17 +10,16 @@ type RessourceCategorie = (typeof RESSOURCE_CATEGORIES)[number];
 // Label and card color per agenda type (colors are @theme tokens).
 export const AGENDA_TYPE_META: Record<AgendaType, { label: string; bg: string }> = {
   colloque: { label: 'Colloque', bg: 'bg-rose' },
-  appel: { label: 'Appel à communications', bg: 'bg-jaune' },
+  appel: { label: 'Appel à projets', bg: 'bg-jaune' },
   'journee-etude': { label: "Journées d'étude", bg: 'bg-vert' },
   seminaire: { label: 'Séminaire', bg: 'bg-bleu' },
   autre: { label: 'Actualité', bg: 'bg-sable' },
 };
 
-export const RESSOURCE_CATEGORY_META: Record<RessourceCategorie, { label: string; anchor: string }> = {
-  textes: { label: 'Textes', anchor: 'textes' },
-  podcasts: { label: 'Podcasts', anchor: 'podcasts' },
-  filmographie: { label: 'Filmographie', anchor: 'filmographie' },
-  partenaires: { label: 'Ressources partenaires', anchor: 'ressources-partenaires' },
+export const RESSOURCE_CATEGORY_META: Record<RessourceCategorie, { label: string }> = {
+  documents: { label: 'Documents' },
+  video: { label: 'Vidéo' },
+  podcast: { label: 'Podcast' },
 };
 
 // Last day an event is still "upcoming": its end date, or its start date.
@@ -41,20 +40,17 @@ export async function getAgenda(): Promise<Evenement[]> {
   return [...upcoming, ...past];
 }
 
-// Published resources grouped by category, in RESSOURCE_CATEGORIES order.
-// Texts are sorted by author then title, the rest by title.
-export async function getRessourcesParCategorie() {
-  const all = await getCollection('ressources', ({ data }) => data.publie);
-  const byTitle = (a: Ressource, b: Ressource) => a.data.titre.localeCompare(b.data.titre, 'fr');
-  return RESSOURCE_CATEGORIES.map((categorie) => {
-    const items = all.filter((r) => r.data.categorie === categorie);
-    items.sort(
-      categorie === 'textes'
-        ? (a, b) => (a.data.auteur ?? '').localeCompare(b.data.auteur ?? '', 'fr') || byTitle(a, b)
-        : byTitle,
-    );
-    return { categorie, ...RESSOURCE_CATEGORY_META[categorie], items };
-  });
+// Published resources in one table, sorted by title. Categories (in
+// RESSOURCE_CATEGORIES order) feed the filters with their counts.
+export async function getRessources() {
+  const items = await getCollection('ressources', ({ data }) => data.publie);
+  items.sort((a, b) => a.data.titre.localeCompare(b.data.titre, 'fr'));
+  const categories = RESSOURCE_CATEGORIES.map((categorie) => ({
+    categorie,
+    ...RESSOURCE_CATEGORY_META[categorie],
+    count: items.filter((r) => r.data.categorie === categorie).length,
+  }));
+  return { items, categories };
 }
 
 export async function getSettings() {
@@ -66,6 +62,18 @@ export async function getSettings() {
 export async function getAccueil(id: 'hero' | 'a-propos') {
   const entry = await getEntry('accueil', id);
   if (!entry) throw new Error(`Missing content/accueil/${id}.yml`);
+  return entry.data;
+}
+
+export async function getSitesAmis() {
+  const entry = await getEntry('sites-amis', 'sites-amis');
+  if (!entry) throw new Error('Missing content/accueil/sites-amis.yml');
+  return entry.data;
+}
+
+export async function getMembresAssocies() {
+  const entry = await getEntry('membres-associes', 'membres-associes');
+  if (!entry) throw new Error('Missing content/accueil/membres-associes.yml');
   return entry.data;
 }
 

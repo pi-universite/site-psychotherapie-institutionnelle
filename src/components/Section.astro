@@ -4,9 +4,11 @@ interface Props {
   titre: string;
   // "side": heading in a left column (À propos); "top": heading above.
   layout?: 'side' | 'top';
+  // Short call to action under the heading (side layout).
+  note?: string;
 }
 
-const { id, titre, layout = 'top' } = Astro.props;
+const { id, titre, layout = 'top', note } = Astro.props;
 ---
 <section
   id={id}
@@ -17,7 +19,10 @@ const { id, titre, layout = 'top' } = Astro.props;
     layout === 'side' && 'md:grid md:grid-cols-3 md:gap-x-gutter',
   ]}
 >
-  <h2 id={`${id}-titre`} class="mb-section text-title">{titre}</h2>
+  <div class="mb-section">
+    <h2 id={`${id}-titre`} class="text-title">{titre}</h2>
+    {note && <p class="mt-gutter max-w-56 text-small font-bold">{note}</p>}
+  </div>
   <div class:list={[layout === 'side' && 'md:col-span-2']}>
     <slot />
   </div>

@@ -1,0 +1,22 @@
+---
+import Section from './Section.astro';
+import Laboratoire from './Laboratoire.astro';
+import type { getMembresAssocies } from '../lib/content';
+
+interface Props {
+  data: Awaited<ReturnType<typeof getMembresAssocies>>;
+}
+
+const { titre, note, laboratoires } = Astro.props.data;
+---
+<Section id="membres-associes" titre={titre} note={note} layout="side">
+  <ul class="max-w-text space-y-section">
+    {
+      laboratoires.map((lab) => (
+        <li>
+          <Laboratoire lab={lab} />
+        </li>
+      ))
+    }
+  </ul>
+</Section>

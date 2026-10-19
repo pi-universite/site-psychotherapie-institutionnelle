@@ -1,0 +1,27 @@
+---
+import Section from './Section.astro';
+import type { getSitesAmis } from '../lib/content';
+
+interface Props {
+  data: Awaited<ReturnType<typeof getSitesAmis>>;
+}
+
+const { titre, note, sites } = Astro.props.data;
+---
+<Section id="sites-amis" titre={titre} note={note} layout="side">
+  <ul class="max-w-text list-outside list-disc space-y-gutter pl-[1.5em] text-subhead">
+    {
+      sites.map((s) => (
+        <li>
+          {s.url ? (
+            <a href={s.url} class="underline-offset-4 hover:underline" rel="noopener">
+              {s.nom}
+            </a>
+          ) : (
+            s.nom
+          )}
+        </li>
+      ))
+    }
+  </ul>
+</Section>

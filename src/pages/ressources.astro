@@ -1,92 +1,138 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Item from '../components/RessourceItem.astro';
-import { getRessourcesParCategorie, type Ressource } from '../lib/content';
+import { getRessources } from '../lib/content';
 
-const categories = await getRessourcesParCategorie();
+const { items, categories } = await getRessources();
 
-// Texts are listed under author headings; other categories are flat lists.
-function groupByAuthor(items: Ressource[]) {
-  const groups = new Map<string, Ressource[]>();
-  for (const item of items) {
-    const key = item.data.auteur ?? 'Divers';
-    groups.set(key, [...(groups.get(key) ?? []), item]);
-  }
-  return [...groups.entries()];
-}
+// Lower-cased, accent-free text matched by the search box.
+const normalize = (s: string) => s.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
+const searchText = (r: (typeof items)[number]) =>
+  normalize([r.data.titre, r.data.auteur, r.data.editeur, r.data.annee, r.data.format].filter(Boolean).join(' '));
+
+// Figma: four columns of the agenda grid, the last one split into year and type.
+// Vertical rules sit on the left edge of every column but the first.
+const columns = [
+  { key: 'auteur', label: 'Auteur(s)', width: 'md:w-1/4' },
+  { key: 'editeur', label: 'Éditeur', width: 'md:w-1/4' },
+  { key: 'annee', label: 'Année', width: 'md:w-[15.5%]' },
+  { key: 'format', label: 'Type', width: '' },
+] as const;
+const ruled = 'md:border-l md:border-encre md:pl-gutter';
 ---
 <BaseLayout
   title="Ressources"
-  description="Textes, podcasts, films et ressources partenaires sur l’histoire et l’actualité de la recherche en psychothérapie institutionnelle."
+  description="Documents, vidéos et podcasts sur l’histoire et l’actualité de la recherche en psychothérapie institutionnelle."
 >
   <section class="py-section">
-    <h1 class="text-display font-medium">Ressources</h1>
-    <p class="mt-gutter max-w-text font-serif text-body">
-      Textes, podcasts, films et ressources partenaires sur l'histoire et l'actualité de la recherche en psychothérapie
-      institutionnelle. Cette page s'enrichit au fil des contributions.
-    </p>
-    <nav aria-label="Catégories de ressources" class="mt-section">
-      <ul class="flex flex-wrap gap-card" id="filtres">
-        <li>
-          <a href="#toutes" data-filtre="toutes" class="label inline-block border border-encre p-card hover:bg-encre hover:text-fond aria-[current=true]:bg-encre aria-[current=true]:text-fond">
-            Tout
-          </a>
-        </li>
-        {
-          categories.map((c) => (
-            <li>
-              <a href={`#${c.anchor}`} data-filtre={c.anchor} class="label inline-block border border-encre p-card hover:bg-encre hover:text-fond aria-[current=true]:bg-encre aria-[current=true]:text-fond">
-                {c.label} <span class="font-normal">({c.items.length})</span>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
-  </section>
+    <div class="flex flex-wrap items-center justify-between gap-gutter">
+      <div class="flex flex-wrap items-baseline gap-x-2 text-small uppercase">
+        <h1>Ressources<span class="hidden [.js_&]:inline"> :</span></h1>
+        <!-- Filters and search need JavaScript; without it the full table shows. -->
+        <ul id="filtres" class="hidden min-w-0 flex-wrap gap-x-1 [.js_&]:flex" aria-label="Filtrer par catégorie">
+          <li>
+            <a href="#toutes" data-filtre="toutes" class="hover:underline aria-[current=true]:font-bold">
+              Toutes ({items.length})
+            </a>
+          </li>
+          {
+            categories.map((c) => (
+              <li>
+                <span aria-hidden="true">/ </span>
+                <a href={`#${c.categorie}`} data-filtre={c.categorie} class="hover:underline aria-[current=true]:font-bold">
+                  {c.label} ({c.count})
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <input
+        id="recherche"
+        type="search"
+        placeholder="Rechercher…"
+        aria-label="Rechercher une ressource"
+        class="hidden w-56 rounded-full border border-encre bg-transparent px-gutter py-card text-small placeholder:text-encre/45 [.js_&]:block"
+      />
+    </div>
 
-  <div id="toutes">
     {
-      categories.map((c) => (
-        <section id={c.anchor} data-categorie={c.anchor} class="border-t border-encre py-section md:grid md:grid-cols-3 md:gap-x-gutter">
-          <h2 class="mb-section text-title">{c.label}</h2>
-          {c.items.length === 0 ? (
-            <p class="font-serif text-body md:col-span-2">Aucune ressource pour le moment.</p>
-          ) : c.categorie === 'textes' ? (
-            <div class="space-y-section md:col-span-2">
-              {groupByAuthor(c.items).map(([auteur, items]) => (
-                <div>
-                  <h3 class="label">{auteur}</h3>
-                  <ul class="mt-card divide-y divide-encre/30 border-y border-encre/30">
-                    {items.map((r) => <Item r={r} />)}
-                  </ul>
-                </div>
+      items.length === 0 ? (
+        <p class="mt-section font-serif text-body">Aucune ressource pour le moment.</p>
+      ) : (
+        <table class="mt-gutter w-full border-collapse border-t border-encre text-left">
+          <thead class="max-md:sr-only">
+            <tr class="text-small uppercase">
+              <th scope="col" class="pt-gutter pb-section pr-gutter font-normal md:w-1/4">Titre du document</th>
+              {columns.map((c) => (
+                <th scope="col" class:list={['pt-gutter pb-section font-normal', c.width, ruled]}>
+                  {c.label}
+                </th>
               ))}
-            </div>
-          ) : (
-            <ul class="divide-y divide-encre/30 border-y border-encre/30 md:col-span-2">
-              {c.items.map((r) => <Item r={r} />)}
-            </ul>
-          )}
-        </section>
-      ))
+            </tr>
+          </thead>
+          <tbody id="ressources-liste" class="font-serif text-body">
+            {items.map((r) => (
+              <tr
+                data-categorie={r.data.categorie}
+                data-texte={searchText(r)}
+                class="align-top max-md:block max-md:border-b max-md:border-encre/30 max-md:py-card max-md:[&:nth-last-child(1_of_:not([hidden]))]:border-b-0"
+              >
+                <td class="italic max-md:block md:py-card md:pr-gutter">
+                  {r.data.url ? (
+                    <a href={r.data.url} class="underline-offset-4 hover:underline" rel="noopener">
+                      {r.data.titre}
+                    </a>
+                  ) : (
+                    r.data.titre
+                  )}
+                </td>
+                {columns.map((c) => {
+                  const value = r.data[c.key];
+                  return (
+                    // Phones: one line per filled field, labelled.
+                    <td class:list={['max-md:text-small md:py-card', ruled, value ? 'max-md:block' : 'max-md:hidden']}>
+                      <span class="label font-normal md:hidden">{c.label} : </span>
+                      {value ?? '/'}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )
     }
-  </div>
+    <p id="aucun-resultat" class="mt-section font-serif text-body" hidden>Aucune ressource ne correspond à cette recherche.</p>
+  </section>
 </BaseLayout>
 
 <script is:inline>
-  // Optional filtering: without JS the anchors simply scroll to each section.
+  // Category filter (from the URL hash, so links like /ressources/#podcast
+  // work) combined with a text search over title, author, publisher, year and type.
   (() => {
     const links = document.querySelectorAll('#filtres [data-filtre]');
-    const sections = document.querySelectorAll('[data-categorie]');
+    const rows = [...document.querySelectorAll('#ressources-liste tr')];
+    const input = document.getElementById('recherche');
+    const empty = document.getElementById('aucun-resultat');
+    const known = new Set([...links].map((l) => l.dataset.filtre));
+    const normalize = (s) => s.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
     const apply = () => {
-      const current = location.hash.slice(1);
-      const known = [...sections].some((s) => s.id === current);
-      const filtre = known ? current : 'toutes';
-      sections.forEach((s) => (s.hidden = filtre !== 'toutes' && s.id !== filtre));
+      const hash = location.hash.slice(1);
+      const filtre = known.has(hash) ? hash : 'toutes';
+      const words = normalize(input.value).split(/\s+/).filter(Boolean);
+      let shown = 0;
+      rows.forEach((row) => {
+        const visible =
+          (filtre === 'toutes' || row.dataset.categorie === filtre) &&
+          words.every((w) => row.dataset.texte.includes(w));
+        row.hidden = !visible;
+        if (visible) shown++;
+      });
       links.forEach((l) => l.setAttribute('aria-current', String(l.dataset.filtre === filtre)));
+      empty.hidden = shown > 0 || rows.length === 0;
     };
     window.addEventListener('hashchange', apply);
+    input.addEventListener('input', apply);
     apply();
   })();
 </script>

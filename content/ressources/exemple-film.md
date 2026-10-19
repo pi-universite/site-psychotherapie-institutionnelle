@@ -1,6 +1,7 @@
 ---
 titre: Exemple de film (titre seul, sans lien)
-categorie: filmographie
+categorie: video
 annee: 1996
+format: Film
 publie: true
 ---

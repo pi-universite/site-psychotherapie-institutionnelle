@@ -16,13 +16,8 @@ export const AGENDA_TYPES = [
   'autre',
 ] as const;
 
-// Resource categories, in display order on /ressources/.
-export const RESSOURCE_CATEGORIES = [
-  'textes',
-  'podcasts',
-  'filmographie',
-  'partenaires',
-] as const;
+// Resource categories, in display order of the /ressources/ filters.
+export const RESSOURCE_CATEGORIES = ['documents', 'video', 'podcast'] as const;
 
 // Singletons: one YAML file each, read with getEntry(<collection>, <file id>).
 const accueil = defineCollection({
@@ -41,23 +36,24 @@ const membre = z.object({
   bio: z.string().optional(),
 });
 
+// A laboratory card, shared by partners and associate members.
+const laboratoire = z.object({
+  etablissement: z.string(),
+  laboratoire: z.string(),
+  // Second line under the laboratory name (research axis, department…).
+  axe: z.string().optional(),
+  url: z.string().optional(),
+  logo: z.string().optional(),
+  equipe_label: z.string().optional(),
+  membres: z.array(membre).default([]),
+});
+
 const partenaires = defineCollection({
   loader: glob({ pattern: 'partenaires.yml', base: './content/accueil' }),
   schema: z.object({
     titre: z.string(),
     // List order is the display order (drag & drop in the CMS).
-    laboratoires: z
-      .array(
-        z.object({
-          etablissement: z.string(),
-          laboratoire: z.string(),
-          url: z.string().optional(),
-          logo: z.string().optional(),
-          equipe_label: z.string().optional(),
-          membres: z.array(membre).default([]),
-        }),
-      )
-      .default([]),
+    laboratoires: z.array(laboratoire).default([]),
     // Funders and supporters (e.g. the City of Marseille), logos only.
     soutiens: z
       .array(
@@ -68,6 +64,25 @@ const partenaires = defineCollection({
         }),
       )
       .default([]),
+  }),
+});
+
+const sitesAmis = defineCollection({
+  loader: glob({ pattern: 'sites-amis.yml', base: './content/accueil' }),
+  schema: z.object({
+    titre: z.string(),
+    // Short call to action under the section title.
+    note: z.string().optional(),
+    sites: z.array(z.object({ nom: z.string(), url: z.string().optional() })).default([]),
+  }),
+});
+
+const membresAssocies = defineCollection({
+  loader: glob({ pattern: 'membres-associes.yml', base: './content/accueil' }),
+  schema: z.object({
+    titre: z.string(),
+    note: z.string().optional(),
+    laboratoires: z.array(laboratoire).default([]),
   }),
 });
 
@@ -113,16 +128,24 @@ const ressources = defineCollection({
   schema: z.object({
     titre: z.string(),
     categorie: z.enum(RESSOURCE_CATEGORIES),
-    // Texts are grouped by author ("Oury Jean").
     auteur: z.string().optional(),
+    editeur: z.string().optional(), // e.g. "Érès", "France Culture"
     annee: z.number().optional(),
-    source: z.string().optional(), // e.g. "Cairn", "France Culture"
+    // File or media type shown in the "Type" column (PDF, Vidéo, Audio…).
+    format: z.string().optional(),
     // Optional: a film may be listed by title only. PDFs live on the
     // client's Google Drive, never in this repo.
     url: z.string().optional(),
-    description: z.string().optional(),
     publie: z.boolean().default(true),
   }),
 });
 
-export const collections = { accueil, partenaires, reglages, agenda, ressources };
+export const collections = {
+  accueil,
+  partenaires,
+  'sites-amis': sitesAmis,
+  'membres-associes': membresAssocies,
+  reglages,
+  agenda,
+  ressources,
+};

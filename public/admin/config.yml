@@ -50,9 +50,10 @@ collections:
             fields:
               - { label: Établissement, name: etablissement, widget: string, hint: "Ex. Aix-Marseille-Université" }
               - { label: Laboratoire, name: laboratoire, widget: string }
+              - { label: Axe ou précision, name: axe, widget: string, required: false, hint: "Deuxième ligne sous le nom du laboratoire (axe de recherche, département…)" }
               - { label: Site du laboratoire, name: url, widget: string, required: false }
               - { label: Logo, name: logo, widget: image, required: false }
-              - { label: Intitulé de l'équipe, name: equipe_label, widget: string, required: false, default: "Équipe psychanalyse" }
+              - { label: Intitulé de l'équipe, name: equipe_label, widget: string, required: false, hint: "Ex. Équipe psychanalyse. Vide = pas d'intitulé au-dessus des membres." }
               - label: Membres
                 name: membres
                 widget: list
@@ -72,6 +73,48 @@ collections:
               - { label: Logo, name: logo, widget: image, required: false }
               - { label: Lien, name: url, widget: string, required: false }
 
+      - name: sites-amis
+        label: Sites amis
+        file: content/accueil/sites-amis.yml
+        fields:
+          - { label: Titre de la section, name: titre, widget: string, default: "Sites amis" }
+          - { label: Note sous le titre, name: note, widget: text, required: false }
+          - label: Sites
+            name: sites
+            widget: list
+            hint: "L'ordre de la liste est l'ordre d'affichage (glisser-déposer)."
+            summary: "{{fields.nom}}"
+            fields:
+              - { label: Nom, name: nom, widget: string }
+              - { label: Lien, name: url, widget: string, required: false }
+
+      - name: membres-associes
+        label: Membres associé·es
+        file: content/accueil/membres-associes.yml
+        fields:
+          - { label: Titre de la section, name: titre, widget: string, default: "Membres associé·es" }
+          - { label: Note sous le titre, name: note, widget: text, required: false }
+          - label: Laboratoires
+            name: laboratoires
+            widget: list
+            hint: "L'ordre de la liste est l'ordre d'affichage (glisser-déposer)."
+            summary: "{{fields.laboratoire}}"
+            fields:
+              - { label: Établissement, name: etablissement, widget: string, hint: "Ex. Aix-Marseille-Université" }
+              - { label: Laboratoire, name: laboratoire, widget: string }
+              - { label: Axe ou précision, name: axe, widget: string, required: false, hint: "Deuxième ligne sous le nom du laboratoire (axe de recherche, département…)" }
+              - { label: Site du laboratoire, name: url, widget: string, required: false }
+              - { label: Logo, name: logo, widget: image, required: false }
+              - { label: Intitulé de l'équipe, name: equipe_label, widget: string, required: false, hint: "Ex. Équipe psychanalyse. Vide = pas d'intitulé au-dessus des membres." }
+              - label: Membres
+                name: membres
+                widget: list
+                summary: "{{fields.nom}}"
+                fields:
+                  - { label: Nom, name: nom, widget: string, hint: "NOM Prénom" }
+                  - { label: Page personnelle, name: url, widget: string, required: false }
+                  - { label: Présentation, name: bio, widget: text, required: false }
+
   # --- Agenda -----------------------------------------------------------------
   - name: agenda
     label: Agenda et actualités
@@ -89,7 +132,7 @@ collections:
         widget: select
         options:
           - { label: Colloque, value: colloque }
-          - { label: Appel à communications / à projets, value: appel }
+          - { label: Appel à projets, value: appel }
           - { label: Journée d'étude, value: journee-etude }
           - { label: Séminaire, value: seminaire }
           - { label: Autre, value: autre }
@@ -121,15 +164,18 @@ collections:
         name: categorie
         widget: select
         options:
-          - { label: Textes, value: textes }
-          - { label: Podcasts, value: podcasts }
-          - { label: Filmographie, value: filmographie }
-          - { label: Ressources partenaires, value: partenaires }
-      - { label: Auteur·rice, name: auteur, widget: string, required: false, hint: "NOM Prénom — les textes sont regroupés par auteur·rice" }
+          - { label: Documents, value: documents }
+          - { label: Vidéo, value: video }
+          - { label: Podcast, value: podcast }
+      - { label: Auteur·rice(s), name: auteur, widget: string, required: false, hint: "Prénom Nom" }
+      - { label: Éditeur, name: editeur, widget: string, required: false, hint: "Maison d'édition, revue, radio, producteur…" }
       - { label: Année, name: annee, widget: number, value_type: int, required: false }
-      - { label: Source, name: source, widget: string, required: false, hint: "Ex. Cairn, France Culture, YouTube" }
+      - label: Type
+        name: format
+        widget: select
+        required: false
+        options: [PDF, Livre, Article, Vidéo, Film, Audio, Page web]
       - { label: Lien, name: url, widget: string, required: false, hint: "Lien Google Drive, Cairn, Radio France, YouTube… Les PDF se déposent sur le Drive, pas ici." }
-      - { label: Description, name: description, widget: text, required: false }
       - { label: Publié, name: publie, widget: boolean, default: true }
 
   # --- Settings ---------------------------------------------------------------

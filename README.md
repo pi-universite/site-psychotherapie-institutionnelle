@@ -1,13 +1,13 @@
-# Comment la psychothérapie institutionnelle existe-t-elle aujourd'hui à l'université ?
+# Théories de la Psychothérapie Institutionnelle
 
 Site issu du colloque des 2 et 3 octobre 2025 à Marseille (AMU), coporté par cinq laboratoires.
 Site statique **Astro** + CMS **Sveltia** (git-based), édité via `/admin`, déployé sur **Cloudflare Pages**.
 
 Objectif de conception : **0 € récurrent, édition autonome, aucune maintenance après livraison.**
 
-Deux pages : l'accueil (titre, À propos, Partenaires, Agenda et actualités, Contacts en pied de page)
-et `/ressources/` (Textes, Podcasts, Filmographie, Ressources partenaires). Un flux `/rss.xml`
-reprend l'agenda et les ressources.
+Deux pages : l'accueil (titre, À propos, Partenaires, Sites amis, Membres associé·es, Agenda et
+actualités, Contacts en pied de page) et `/ressources/` (un tableau filtrable Documents / Vidéo / Podcast,
+avec recherche). Un flux `/rss.xml` reprend l'agenda et les ressources.
 
 ## Stack
 
@@ -28,6 +28,8 @@ reprend l'agenda et les ressources.
 | Titre et sous-titre | `content/accueil/hero.yml` | Page d'accueil → En-tête |
 | À propos | `content/accueil/a-propos.yml` | Page d'accueil → À propos |
 | Laboratoires et soutiens | `content/accueil/partenaires.yml` | Page d'accueil → Partenaires (ordre par glisser-déposer) |
+| Sites amis | `content/accueil/sites-amis.yml` | Page d'accueil → Sites amis |
+| Membres associé·es | `content/accueil/membres-associes.yml` | Page d'accueil → Membres associé·es |
 | Agenda et actualités | `content/agenda/*.md` | Agenda et actualités |
 | Ressources | `content/ressources/*.md` | Ressources |
 | Contacts, newsletter, description | `content/reglages/site.yml` | Réglages |
@@ -37,13 +39,17 @@ Le modèle est défini **dans deux fichiers à garder synchronisés** :
 
 ## Guide éditeur
 
-- **Agenda** : la date est celle de l'événement, ou la **date limite** pour un appel à communications.
+- **Agenda** : la date est celle de l'événement, ou la **date limite** pour un appel à projets.
   Le classement est automatique : les événements à venir passent d'abord, les événements passés restent
   visibles mais estompés. Il n'y a rien à ranger ni à supprimer. Pour retirer un événement, décochez **Publié**.
 - **Ressources** : **aucun PDF dans le site.** Les textes sont déposés dans le Google Drive partagé
   (dossier TEXTES), puis on crée une fiche ressource avec le lien du fichier. Pour un texte payant, mettez
   le lien Cairn. Les podcasts pointent vers Radio France, les films vers YouTube ou ne portent qu'un titre.
-  Les textes sont regroupés par auteur·rice : écrivez le nom toujours de la même façon (« OURY Jean »).
+  Chaque fiche a une catégorie (Documents, Vidéo, Podcast) qui alimente les filtres, et des colonnes
+  facultatives : auteur·rice(s), éditeur, année, type (PDF, Livre, Vidéo…). Une colonne vide affiche « / ».
+  Le tableau est trié par titre ; la recherche porte sur toutes les colonnes.
+- **Partenaires et membres associé·es** : « Axe ou précision » s'affiche sur une deuxième ligne sous le nom
+  du laboratoire. « Intitulé de l'équipe » est facultatif : vide, les membres s'affichent directement.
 - **Images** (logos, affiches) : JPG ou PNG, de poids raisonnable (< 1 Mo), nommés sans espaces.
 - **Newsletter** : collez dans Réglages le lien du formulaire d'inscription hébergé (Brevo ou autre).
   Si le champ est vide, le lien n'apparaît pas.
@@ -154,6 +160,9 @@ puis mettre à jour la version dans ce README et commit.
 - **Pas** de Dependabot ni de Renovate en fusion automatique.
 
 ## Décors
+
+Maquette de référence : [Figma](https://www.figma.com/design/wXJJcRBwpwfdONSaRG1mwl/Untitled--Copy-?node-id=0-1),
+frame *Desktop - 8* pour l'accueil, *Desktop - 9* pour `/ressources/`.
 
 Les formes du titre sont les SVG exportés de la maquette Figma (frame *Desktop - 8*), dans
 `public/deco/`. Leur position, leur taille et leur rotation reprennent celles de Figma
