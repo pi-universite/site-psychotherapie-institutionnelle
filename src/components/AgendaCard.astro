@@ -44,7 +44,7 @@ const isCall = e.type === 'appel';
     <span class="label">{meta.label}</span>
     {
       e.lien && (
-        <a href={e.lien} class="text-small uppercase underline underline-offset-2" rel="noopener">
+        <a href={e.lien} class="text-small uppercase underline underline-offset-2" target="_blank" rel="noopener noreferrer">
           {e.lien_label || 'Site web'}
         </a>
       )

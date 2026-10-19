@@ -13,5 +13,12 @@ export async function renderMarkdown(source: string | undefined): Promise<string
       ...sanitizeHtml.defaults.allowedAttributes,
       a: ['href', 'name', 'target', 'rel'],
     },
+    // External links open in a new tab, like every other link of the site.
+    transformTags: {
+      a: (tagName, attribs) =>
+        /^https?:\/\//.test(attribs.href ?? '')
+          ? { tagName, attribs: { ...attribs, target: '_blank', rel: 'noopener noreferrer' } }
+          : { tagName, attribs },
+    },
   });
 }

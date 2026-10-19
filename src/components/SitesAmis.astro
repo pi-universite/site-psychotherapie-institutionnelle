@@ -14,7 +14,7 @@ const { titre, note, sites } = Astro.props.data;
       sites.map((s) => (
         <li>
           {s.url ? (
-            <a href={s.url} class="underline-offset-4 hover:underline" rel="noopener">
+            <a href={s.url} class="underline-offset-4 hover:underline" target="_blank" rel="noopener noreferrer">
               {s.nom}
             </a>
           ) : (

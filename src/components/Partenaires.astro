@@ -48,7 +48,7 @@ function cellClasses(i: number) {
         <ul class="mt-4 flex flex-wrap items-center gap-8">
           {soutiens.map((s) => {
             const content = s.logo ? <img src={s.logo} alt={s.nom} class="h-12 w-auto" loading="lazy" /> : s.nom;
-            return <li>{s.url ? <a href={s.url} rel="noopener">{content}</a> : content}</li>;
+            return <li>{s.url ? <a href={s.url} target="_blank" rel="noopener noreferrer">{content}</a> : content}</li>;
           })}
         </ul>
       </div>
