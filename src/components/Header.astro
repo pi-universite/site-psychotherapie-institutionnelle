@@ -15,9 +15,13 @@ const links = [
 ];
 ---
 <!-- Sticky bar: the translucent, blurred background bleeds to the window
-     edges (::before), while the bottom rule stays within the page margins. -->
+     edges (::before), while the bottom rule stays within the page margins.
+     iOS Safari: the background also extends above the bar, so the page never
+     shows through when the sticky position lags a frame behind momentum
+     scrolling, and the bar gets its own compositing layer (transform-gpu) so
+     the blur doesn't jitter. -->
 <header
-  class="sticky top-0 z-20 flex flex-wrap items-center justify-between gap-x-gutter border-b border-encre py-gutter before:absolute before:inset-y-0 before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2 before:bg-fond/85 before:backdrop-blur-[5px] lg:flex-nowrap"
+  class="sticky top-0 z-20 flex transform-gpu flex-wrap items-center justify-between gap-x-gutter border-b border-encre py-gutter before:absolute before:-top-section before:bottom-0 before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2 before:bg-fond/85 before:backdrop-blur-[5px] lg:flex-nowrap"
 >
   <a href="/" class="max-w-md min-w-0 text-small font-bold max-lg:flex-1 lg:max-w-sm lg:text-nav" aria-current={onHome ? 'page' : undefined}>
     {title}
