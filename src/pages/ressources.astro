@@ -87,7 +87,9 @@ const ruled = 'md:border-l md:border-encre md:pl-gutter';
                   )}
                 </td>
                 {columns.map((c) => {
-                  const value = r.data[c.key];
+                  // A field emptied in the CMS is saved as "" (or spaces): treat it as missing.
+                  const raw = r.data[c.key];
+                  const value = typeof raw === 'string' ? raw.trim() || undefined : raw;
                   return (
                     // Phones: one line per filled field, labelled.
                     <td class:list={['max-md:text-small md:py-card', ruled, value ? 'max-md:block' : 'max-md:hidden']}>

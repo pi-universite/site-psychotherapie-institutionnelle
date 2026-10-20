@@ -12,10 +12,12 @@ backend:
 media_folder: public/uploads
 public_folder: /uploads
 
-# Entry filenames become stable ids: force ASCII slugs (no accents/spaces).
+# Entry filenames become stable ids: force ASCII slugs (no accents/spaces),
+# capped in length. Sveltia appends -1, -2… when a filename already exists.
 slug:
   encoding: ascii
   clean_accents: true
+  maxlength: 60
 
 collections:
   # --- Home page singletons -------------------------------------------------
@@ -109,6 +111,9 @@ collections:
     folder: content/agenda
     create: true
     slug: "{{year}}-{{slug}}"
+    # Filenames from the title (the default looks for a "title" field, which
+    # we don't have, and falls back to a random id).
+    identifier_field: titre
     summary: "{{date_debut | date('DD/MM/YYYY')}} — {{titre}}"
     sortable_fields: [date_debut, titre]
     fields:
@@ -139,6 +144,7 @@ collections:
     folder: content/ressources
     create: true
     slug: "{{slug}}"
+    identifier_field: titre
     summary: "{{titre}}"
     sortable_fields: [titre, auteur, annee]
     view_groups:
