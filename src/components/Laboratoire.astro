@@ -36,11 +36,12 @@ const { lab } = Astro.props;
       <p class="label mb-gutter font-normal" aria-hidden={lab.equipe_label ? undefined : 'true'}>
         {lab.equipe_label ? `${lab.equipe_label} :` : ' '}
       </p>
+      {/* Member links get taller tap targets on phones (names stack 19px apart). */}
       <ul class="font-serif text-body">
         {lab.membres.map((m) => (
           <li>
             {m.url ? (
-              <a href={m.url} class="hover:underline" target="_blank" rel="noopener noreferrer">
+              <a href={m.url} class="hover:underline max-md:inline-block max-md:py-1" target="_blank" rel="noopener noreferrer">
                 {m.nom}
               </a>
             ) : (

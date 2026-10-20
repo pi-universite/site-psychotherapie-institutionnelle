@@ -30,7 +30,7 @@ const ruled = 'md:border-l md:border-encre md:pl-gutter';
         <!-- Filters and search need JavaScript; without it the full table shows. -->
         <ul id="filtres" class="hidden min-w-0 flex-wrap gap-x-1 [.js_&]:flex" aria-label="Filtrer par catégorie">
           <li>
-            <a href="#toutes" data-filtre="toutes" class="hover:underline aria-[current=true]:font-bold">
+            <a href="#toutes" data-filtre="toutes" class="inline-block py-1 hover:underline aria-[current=true]:font-bold">
               Toutes ({items.length})
             </a>
           </li>
@@ -38,7 +38,7 @@ const ruled = 'md:border-l md:border-encre md:pl-gutter';
             categories.map((c) => (
               <li>
                 <span aria-hidden="true">/ </span>
-                <a href={`#${c.categorie}`} data-filtre={c.categorie} class="hover:underline aria-[current=true]:font-bold">
+                <a href={`#${c.categorie}`} data-filtre={c.categorie} class="inline-block py-1 hover:underline aria-[current=true]:font-bold">
                   {c.label} ({c.count})
                 </a>
               </li>
