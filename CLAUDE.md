@@ -40,6 +40,9 @@ auth/                         ← OAuth Worker (zero deps, deployed by hand with
 
 - **Dual schema**: any content-model change goes to BOTH `public/admin/config.yml` and
   `src/content.config.ts`.
+- **Before every commit, run `npm run test:cms`** (~6 s) and commit only if it passes: it checks
+  both schemas match and that every CMS field shows up in the built site (markers injected into a
+  throwaway copy).
 - **Security invariant**: admin and site share one origin and editors' GitHub tokens live in
   localStorage. Any HTML from CMS content must go through `renderMarkdown()` (sanitize-html).
   Keep `public/_headers` rules.

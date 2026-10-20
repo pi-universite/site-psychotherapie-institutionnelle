@@ -10,7 +10,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "test:cms": "node scripts/test-cms.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
@@ -27,6 +28,7 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@types/sanitize-html": "^2.16.2",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "yaml": "2.9.1"
   }
 }

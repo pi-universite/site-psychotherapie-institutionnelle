@@ -194,7 +194,14 @@ npm ci         # installe à l'identique du lockfile
 npm run dev    # site sur localhost:4321, admin sur /admin (« Work with Local Repository » dans Chrome)
 npm run build  # build statique dans dist/
 npm run check  # vérification des types
+npm run test:cms  # tous les champs du CMS : schémas cohérents et affichés sur le site
 ```
+
+`npm run test:cms` vérifie deux choses, sans toucher au contenu réel (il travaille sur une copie
+temporaire) : que `public/admin/config.yml` et `src/content.config.ts` décrivent exactement les
+mêmes champs, et que chaque champ saisi dans le CMS apparaît bien dans le site construit (pages,
+`<head>`, flux RSS), y compris chaque option des listes déroulantes et la case « Publié ». À lancer
+après toute modification du modèle de contenu ; `--verbose` liste aussi les champs vérifiés.
 
 ## Mise en production (Cloudflare Pages)
 
