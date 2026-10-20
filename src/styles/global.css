@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
 
 /* Design tokens sampled from the Figma mockup (Desktop 8). */
 @theme {

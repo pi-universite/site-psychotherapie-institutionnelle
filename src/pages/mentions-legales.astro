@@ -5,7 +5,7 @@ import { renderMarkdown } from '../lib/markdown';
 
 // Legal minimum for a French site (LCEN: publisher, publication director,
 // host) plus the GDPR notice required by the newsletter signup. Edited in the
-// CMS (Réglages → Mentions légales et confidentialité).
+// CMS (section Mentions légales).
 const { titre, texte } = await getMentionsLegales();
 const html = await renderMarkdown(texte);
 ---

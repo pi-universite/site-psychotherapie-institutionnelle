@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Built as dist/404.html, which Cloudflare Pages serves with a 404 status for
+// unknown URLs (without it, Pages falls back to the home page with a 200).
+---
+<BaseLayout title="Page introuvable" description="Cette page n'existe pas ou a été déplacée.">
+  <section class="py-section">
+    <h1 class="mb-section text-title">Page introuvable</h1>
+    <div class="max-w-text space-y-card font-serif text-body">
+      <p>Cette page n'existe pas, ou elle a été déplacée.</p>
+      <p>
+        <a href="/" class="underline">Retour à l'accueil</a> ·
+        <a href="/ressources/" class="underline">Ressources</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
